@@ -83,11 +83,13 @@ export default function Home() {
   const aktuelleNews = newsData.slice(0, 3);
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800" style={{ paddingTop: '105px' }}>
+    // NEU: paddingTop von 105px auf 140px erhöht
+    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800" style={{ paddingTop: '140px' }}>
       <Navbar />
 
       {/* ─── HERO ─────────────────────────────────────────────── */}
-      <section className="px-4 md:px-6 lg:px-8 pt-4 pb-0">
+      {/* NEU: Auch hier etwas mehr "pt-8" hinzugefügt für mehr Luft nach oben */}
+      <section className="px-4 md:px-6 lg:px-8 pt-6 md:pt-8 pb-0">
         <div className="max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-[#0067B0]/15">
           <div
             className="relative w-full group"
@@ -105,7 +107,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#00346A]/92 via-[#0067B0]/60 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
-            {/* Hero content – no buttons, no quick-links */}
+            {/* Hero content */}
             <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-14 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/12 backdrop-blur-md text-white/90 text-xs font-semibold mb-5 border border-white/20 w-fit tracking-wider uppercase">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
@@ -173,8 +175,6 @@ export default function Home() {
                   {item.desc}
                 </p>
 
-
-
                 <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${item.gradient} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
               </a>
             ))}
@@ -235,7 +235,6 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Desktop: 3-spaltig | Mobile: vertikale Liste kompakt */}
           <div className="hidden lg:grid lg:grid-cols-3 gap-5">
             {aktuelleNews.map((item, idx) => (
               <a
@@ -273,7 +272,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Mobile: kompakte Liste */}
           <div className="lg:hidden space-y-3">
             {aktuelleNews.map((item, idx) => (
               <a
@@ -281,22 +279,18 @@ export default function Home() {
                 key={item.id}
                 className="group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 hover:border-[#0067B0]/30 hover:shadow-md transition-all duration-200"
               >
-                {/* Color stripe */}
                 <div className={`w-1 self-stretch rounded-full shrink-0 ${idx === 0 ? 'bg-[#0067B0]' : 'bg-slate-200'}`} />
-
                 <div className="flex-grow min-w-0">
                   <p className="text-xs font-semibold text-slate-400 mb-1">{item.date}</p>
                   <h3 className="text-sm font-bold text-slate-800 group-hover:text-[#0067B0] transition-colors leading-snug line-clamp-2">
                     {item.title}
                   </h3>
                 </div>
-
                 <svg className="w-4 h-4 text-slate-300 group-hover:text-[#0067B0] shrink-0 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </a>
             ))}
-
             <a
               href="/archiv"
               className="flex items-center justify-center gap-2 w-full py-3.5 mt-2 border-2 border-[#0067B0]/20 text-[#0067B0] text-sm font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors"

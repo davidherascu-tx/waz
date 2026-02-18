@@ -35,7 +35,8 @@ export default function Footer() {
                 Ihr zuverlässiger Partner für Wasser- und Abwasserversorgung seit über 30 Jahren.
               </p>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Adresse */}
                 <div className="flex items-start gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-[#0067B0]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0067B0]/20 transition-colors">
                     <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,6 +50,7 @@ export default function Footer() {
                   </div>
                 </div>
 
+                {/* Telefon */}
                 <a href="tel:033793768-60" className="flex items-center gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-[#0067B0]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0067B0]/20 transition-colors">
                     <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,6 +62,20 @@ export default function Footer() {
                     <p className="text-gray-400 text-xs">Telefon</p>
                   </div>
                 </a>
+
+                {/* Telefax */}
+                <div className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 rounded-xl bg-[#0067B0]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0067B0]/20 transition-colors">
+                    <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                  </div>
+                  <div className="text-sm">
+                    <p className="text-white font-semibold group-hover:text-[#0067B0] transition-colors">03379 3768-03</p>
+                    <p className="text-gray-400 text-xs">Telefax</p>
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -93,11 +109,6 @@ export default function Footer() {
 
             {/* Spalte 3: Informationen */}
             <div className="lg:col-span-3">
-              {/* <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-6 flex items-center gap-2">
-               <span className="w-1 h-4 bg-[#0067B0] rounded-full"></span>
-               Informationen
-              </h4> */}
-              
               <div className="p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#0067B0]/50 transition-all hover:shadow-lg hover:shadow-[#0067B0]/10">
                 <h5 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
                   <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
