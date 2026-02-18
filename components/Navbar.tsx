@@ -119,7 +119,7 @@ function SubItemList({ items }: { items: NavLeaf[] }) {
 
 function MegaMenu({ columns }: { columns: Column[] }) {
   return (
-    <div className="absolute top-full mt-2 bg-white rounded-2xl shadow-2xl shadow-slate-900/12 border border-slate-100 overflow-hidden z-50 animate-fade-in-down" style={{ width: '860px', left: '50%', transform: 'translateX(-50%)' }}>
+    <div className="absolute top-full mt-3 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ width: '860px', left: '50%' }}>
       <div className="h-[3px] bg-gradient-to-r from-[#0067B0] via-[#00a8e0] to-[#00C2E0]" />
       <div className="grid p-6 gap-0" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
         {columns.map((col, ci) => (
@@ -150,7 +150,7 @@ function MegaMenu({ columns }: { columns: Column[] }) {
 
 function SimpleDropdown({ items }: { items: NavLeaf[] }) {
   return (
-    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl shadow-slate-900/12 border border-slate-100 overflow-hidden z-50 animate-fade-in-down">
+    <div className="absolute top-full mt-3 w-64 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ left: '50%' }}>
       <div className="h-[3px] bg-gradient-to-r from-[#0067B0] to-[#00C2E0]" />
       <ul className="p-2">
         {items.map((item) => (
@@ -165,7 +165,7 @@ function SimpleDropdown({ items }: { items: NavLeaf[] }) {
   );
 }
 
-// ─── NEUE, ÜBERSICHTLICHE MOBILE KOMPONENTEN MIT ÜBERKATEGORIEN ───
+// ─── MOBILE KOMPONENTEN MIT ÜBERKATEGORIEN ───
 type MobileItem = {
   label: string;
   href?: string;
@@ -176,8 +176,6 @@ type MobileItem = {
 
 function MobileSection({ item }: { item: MobileItem }) {
   const [open, setOpen] = useState(false);
-
-  // Prüfen, ob das Menü aufklappbar sein soll (entweder columns oder children)
   const hasChildren = !!item.columns?.length || !!item.children?.length;
 
   if (!hasChildren && item.href) {
@@ -199,15 +197,11 @@ function MobileSection({ item }: { item: MobileItem }) {
         </div>
       </button>
 
-      {/* Aufklappbarer Bereich */}
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? 'max-h-[2500px] mb-4' : 'max-h-0'}`}>
         <div className="bg-slate-50 rounded-2xl p-3 space-y-6">
-          
-          {/* Wenn wir Spalten haben (wie bei "Service") */}
           {item.columns ? (
             item.columns.map((col, idx) => (
               <div key={idx} className="flex flex-col gap-2.5">
-                {/* Hier ist die neue, sichtbare Überkategorie für Mobile! */}
                 <h4 className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#0067B0] ml-2 border-b border-[#0067B0]/10 pb-1.5 inline-block">
                   {col.heading}
                 </h4>
@@ -219,14 +213,12 @@ function MobileSection({ item }: { item: MobileItem }) {
               </div>
             ))
           ) : (
-            /* Wenn wir nur normale Untermenüs haben (wie bei "Über uns") */
             <div className="space-y-2">
               {item.children?.map((child, idx) => (
                 <MobileChild key={idx} item={child as MobileItem} />
               ))}
             </div>
           )}
-          
         </div>
       </div>
     </div>
@@ -266,7 +258,6 @@ function MobileChild({ item }: { item: MobileItem }) {
   );
 }
 
-
 // ─── HAUPT-NAVBAR ─────────────────────────────────────────────
 export default function Navbar() {
   const [activeIdx, setActiveIdx]   = useState<number | null>(null);
@@ -278,7 +269,6 @@ export default function Navbar() {
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastScrollY = useRef(0);
 
-  // Scroll-Event-Listener für Auto-Hide Header
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -296,7 +286,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Body-Scroll blockieren, wenn das Mobile-Menu offen ist
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -323,27 +312,29 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-        @keyframes ddFadeIn {
-          from { opacity:0; transform: translateX(-50%) translateY(-8px); }
-          to   { opacity:1; transform: translateX(-50%) translateY(0); }
+        @keyframes ddFadeInCenter {
+          from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
-        @keyframes ddFadeInSimple {
-          from { opacity:0; transform: translateY(-8px); }
-          to   { opacity:1; transform: translateY(0); }
+        .animate-fade-in-center { 
+          animation: ddFadeInCenter .15s ease-out forwards; 
         }
-        .animate-fade-in-down { animation: ddFadeInSimple .15s ease-out forwards; }
       `}</style>
 
-      {/* NAVBAR CONTAINER */}
+      {/* NEU: Schwebe-Effekt durch max-w, left-1/2, top-Abstand und rounded-2xl */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ease-in-out ${
-          scrolled || mobileOpen ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-slate-900/10 border-b border-slate-100' : 'bg-white border-b border-slate-100'
-        } ${isScrollingDown && !mobileOpen ? '-translate-y-full lg:translate-y-0' : 'translate-y-0'}`}
+        className={`fixed z-50 transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 w-[96%] max-w-[1400px] border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)] ${
+          mobileOpen ? 'rounded-t-2xl rounded-b-none' : 'rounded-2xl'
+        } ${
+          scrolled || mobileOpen 
+            ? 'bg-white/95 backdrop-blur-xl top-3 md:top-4' 
+            : 'bg-white top-4 md:top-6'
+        } ${isScrollingDown && !mobileOpen ? '-translate-y-[150%] lg:translate-y-0' : 'translate-y-0'}`}
       >
 
         {/* ── Top utility bar (Desktop) ── */}
-        <div className={`hidden lg:block bg-slate-50 transition-all duration-500 ease-in-out overflow-hidden ${scrolled ? 'h-0 opacity-0' : 'h-10 opacity-100 border-b border-slate-100'}`}>
-          <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-end gap-6 text-xs text-slate-500">
+        <div className={`hidden lg:block bg-slate-50 transition-all duration-500 ease-in-out overflow-hidden rounded-t-2xl ${scrolled ? 'h-0 opacity-0' : 'h-10 opacity-100 border-b border-slate-100'}`}>
+          <div className="w-full px-6 h-full flex items-center justify-end gap-6 text-xs text-slate-500">
             <span className="flex items-center gap-1.5">
               <svg className="w-3.5 h-3.5 text-[#0067B0] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
               03379 3768-60
@@ -362,14 +353,13 @@ export default function Navbar() {
         </div>
 
         {/* ── Main nav row ── */}
-        <nav className={`relative max-w-[1400px] mx-auto px-5 lg:px-6 flex items-center justify-between transition-all duration-500 ease-in-out ${scrolled || mobileOpen ? 'h-16' : 'h-20 lg:h-24'}`}>
-          {/* Logo */}
+        <nav className={`relative w-full px-5 lg:px-6 flex items-center justify-between transition-all duration-500 ease-in-out ${scrolled || mobileOpen ? 'h-16' : 'h-20 lg:h-24'}`}>
+          
           <Link href="/" className="flex items-center shrink-0 z-50" onClick={() => setMobileOpen(false)}>
-            <img src="/waz_logo_menu.webp" alt="WAZ Blankenfelde-Mahlow" className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-10' : 'h-14'}`} />
+            <img src="/waz_logo_menu.webp" alt="WAZ Blankenfelde-Mahlow" className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-9' : 'h-12'}`} />
             <img src="/waz_logo.webp" alt="WAZ Logo" className={`block lg:hidden w-auto object-contain transition-all duration-500 ${scrolled || mobileOpen ? 'h-8' : 'h-10'}`} />
           </Link>
 
-          {/* Desktop nav items */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item, i) => {
               const hasDropdown = !!(item.children || item.columns);
@@ -404,7 +394,6 @@ export default function Navbar() {
               Aktuelles
             </a>
 
-            {/* NEUES ANIMIERTES BURGER-MENU */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden relative flex flex-col justify-center items-center w-11 h-11 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 transition-colors z-50 border border-slate-200"
@@ -421,19 +410,17 @@ export default function Navbar() {
 
         {/* ── Mobile drawer ── */}
         <div 
-          className={`lg:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-100 shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-all duration-300 ease-in-out flex flex-col overflow-hidden ${
-            mobileOpen ? 'h-[calc(100dvh-64px)] opacity-100 visible' : 'h-0 opacity-0 invisible'
+          className={`lg:hidden absolute top-full left-[-1px] right-[-1px] bg-white border border-slate-200 border-t-0 shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-all duration-300 ease-in-out flex flex-col overflow-hidden rounded-b-2xl ${
+            mobileOpen ? 'h-[calc(100dvh-120px)] opacity-100 visible' : 'h-0 opacity-0 invisible'
           }`}
         >
-          {/* OBERER BEREICH: Scrollbar für Menüpunkte */}
           <div className="flex-1 overflow-y-auto px-5 py-4 pb-12">
             {navItems.map((item) => (
               <MobileSection key={item.label} item={item as MobileItem} />
             ))}
           </div>
 
-          {/* UNTERER BEREICH: Immer sichtbar verankert! */}
-          <div className="shrink-0 p-4 bg-slate-50 border-t border-slate-200 flex gap-3 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+          <div className="shrink-0 p-4 bg-slate-50 border-t border-slate-200 flex gap-3 shadow-[0_-10px_20px_rgba(0,0,0,0.02)] rounded-b-2xl">
             <a href="/kundenportal" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 border-2 border-[#0067B0]/20 bg-white text-[#0067B0] text-[13px] font-bold rounded-2xl active:bg-blue-50 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
