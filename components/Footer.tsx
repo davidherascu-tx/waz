@@ -1,117 +1,192 @@
 // components/Footer.tsx
+'use client';
 import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a192f] text-gray-300 relative overflow-hidden mt-auto border-t-8 border-[#0067B0]">
-      {/* Subtiler Deko-Leuchteffekt im Hintergrund */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0067B0]/10 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          
-          {/* Spalte 1: Branding & Kontakt */}
-          <div className="flex flex-col">
-            <div className="bg-white/95 backdrop-blur p-4 rounded-2xl w-fit mb-8 shadow-lg">
-              <img src="/waz_logo.webp" alt="WAZ Logo" className="h-10 w-auto" />
-            </div>
-            
-            <p className="text-gray-400 leading-relaxed mb-6 text-sm">
-              <strong className="text-white block text-base mb-1">WAZ Blankenfelde-Mahlow</strong>
-              Glasower Damm 92<br />
-              15827 Blankenfelde-Mahlow
-            </p>
-            
-            <div className="flex flex-col gap-3 text-sm">
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#0067B0]">📞</span>
-                <span className="text-gray-300">03379 3768-60</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#0067B0]">📠</span>
-                <span className="text-gray-300">03379 3768-03</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Spalte 2: Bürgersprechstunde */}
-          <div>
-            <h4 className="text-white text-lg font-bold mb-8 flex items-center gap-3">
-              <span className="bg-[#0067B0]/20 p-2 rounded-lg text-[#0067B0]">🕒</span> 
-              Bürgersprechstunde
-            </h4>
-            <div className="border-l-2 border-[#0067B0]/30 pl-5 space-y-6">
-              <div>
-                <strong className="text-white block mb-1">Dienstag</strong>
-                <span className="text-gray-400 text-sm">13:00 – 16:00 Uhr</span>
-              </div>
-              <div className="pt-2">
-                <strong className="text-white block mb-1">Donnerstag</strong>
-                <span className="text-gray-400 text-sm block">09:00 – 12:00 Uhr</span>
-                <span className="text-gray-400 text-sm block">13:00 – 18:00 Uhr</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Spalte 3: Links */}
-          <div>
-            <h4 className="text-white text-lg font-bold mb-8 flex items-center gap-3">
-              <span className="bg-[#0067B0]/20 p-2 rounded-lg text-[#0067B0]">🔗</span> 
-              Wichtige Links
-            </h4>
-            <ul className="space-y-4 text-sm mb-10">
-              <li><Link href="/#leistungen" className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><span className="text-[#0067B0] group-hover:translate-x-1 transition-transform">&rarr;</span> Formulare & Anträge</Link></li>
-              <li><Link href="#" className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><span className="text-[#0067B0] group-hover:translate-x-1 transition-transform">&rarr;</span> Zählerstand melden</Link></li>
-              <li><Link href="/archiv" className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"><span className="text-[#0067B0] group-hover:translate-x-1 transition-transform">&rarr;</span> News-Archiv</Link></li>
-            </ul>
-            
-            <h4 className="text-gray-500 text-xs font-bold mb-4 uppercase tracking-widest">Rechtliches</h4>
-            <div className="flex flex-wrap gap-4 text-xs text-gray-400">
-              <Link href="#" className="hover:text-white transition-colors">Impressum</Link>
-              <Link href="#" className="hover:text-white transition-colors">Datenschutz</Link>
-              <Link href="#" className="hover:text-white transition-colors">Satzungen</Link>
-            </div>
-          </div>
-
-          {/* Spalte 4: Störungsmeldung (Premium Card) */}
-          <div className="lg:col-span-1">
-            <div className="bg-gradient-to-b from-red-900/20 to-transparent border border-red-500/20 p-6 rounded-3xl relative overflow-hidden group hover:border-red-500/40 transition-all">
-              {/* Pulsierender roter Punkt */}
-              <div className="absolute top-6 right-6 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.7)]"></div>
-              
-              <div className="bg-white/95 p-3 rounded-xl inline-block mb-6 shadow-sm">
-                <img src="/DNWAB_Logo.webp" alt="DNWAB Logo" className="h-8 w-auto" />
-              </div>
-
-              <h4 className="text-red-400 font-bold text-sm uppercase tracking-wider mb-2">
-                Im Havariefall
-              </h4>
-              <p className="text-white text-lg font-semibold mb-4">Betriebsführer</p>
-              
-              <div className="inline-block bg-red-500/10 text-red-400 text-xs font-bold px-3 py-1.5 rounded-lg mb-6 border border-red-500/20">
-                24/7 RUND UM DIE UHR
-              </div>
-              
-              <a 
-                href="tel:08008807088" 
-                className="block text-2xl lg:text-3xl font-black text-white hover:text-red-400 transition-colors tracking-tight"
-              >
-                0800 8807088
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
+    <footer className="relative mt-auto overflow-hidden">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-[#0a192f] to-black"></div>
       
-      {/* Copyright Bar */}
-      <div className="border-t border-white/5 bg-black/20">
-        <div className="max-w-7xl mx-auto px-6 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span>&copy; {new Date().getFullYear()} WAZ Blankenfelde-Mahlow. Alle Rechte vorbehalten.</span>
-          <span className="flex gap-4">
-            <Link href="#" className="hover:text-gray-300 transition-colors">Datenschutz</Link>
-            <Link href="#" className="hover:text-gray-300 transition-colors">Impressum</Link>
-          </span>
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#0067B0]/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px]"></div>
+      </div>
+
+      <div className="relative">
+        {/* Top Blue Accent Bar */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-[#0067B0] to-transparent"></div>
+
+        {/* Main Content */}
+        <div className="max-w-[1400px] mx-auto px-6 pt-16 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+            
+            {/* Spalte 1: Branding & Kontakt */}
+            <div className="lg:col-span-4">
+              <div className="inline-block bg-white/95 backdrop-blur-sm p-4 rounded-2xl mb-6 shadow-xl shadow-[#0067B0]/20">
+                <img src="/waz_logo.webp" alt="WAZ Logo" className="h-12 w-auto" />
+              </div>
+              
+              <h3 className="text-white text-xl font-bold mb-2">
+                WAZ Blankenfelde-Mahlow
+              </h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                Ihr zuverlässiger Partner für Wasser- und Abwasserversorgung seit über 30 Jahren.
+              </p>
+
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 group">
+                  <div className="w-10 h-10 rounded-xl bg-[#0067B0]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0067B0]/20 transition-colors">
+                    <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div className="text-sm">
+                    <p className="text-gray-300">Glasower Damm 92</p>
+                    <p className="text-gray-400">15827 Blankenfelde-Mahlow</p>
+                  </div>
+                </div>
+
+                <a href="tel:033793768-60" className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 rounded-xl bg-[#0067B0]/10 flex items-center justify-center shrink-0 group-hover:bg-[#0067B0]/20 transition-colors">
+                    <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div className="text-sm">
+                    <p className="text-white font-semibold group-hover:text-[#0067B0] transition-colors">03379 3768-60</p>
+                    <p className="text-gray-400 text-xs">Telefon</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Spalte 2: Quick Links */}
+            <div className="lg:col-span-2">
+              <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-6 flex items-center gap-2">
+                <span className="w-1 h-4 bg-[#0067B0] rounded-full"></span>
+                Services
+              </h4>
+              <ul className="space-y-3">
+                {[
+                  { label: 'Zählerstand melden', href: '/service/zaehlerstand' },
+                  { label: 'Formulare & Anträge', href: '/#leistungen' },
+                  { label: 'Leitungsauskunft', href: '/service/leitungsauskunft' },
+                  { label: 'Installateursuche', href: '/service/installateure' },
+                ].map((link) => (
+                  <li key={link.label}>
+                    <Link 
+                      href={link.href}
+                      className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+                    >
+                      <svg className="w-4 h-4 text-[#0067B0] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Spalte 3: Informationen */}
+            <div className="lg:col-span-3">
+              {/* <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-6 flex items-center gap-2">
+               <span className="w-1 h-4 bg-[#0067B0] rounded-full"></span>
+               Informationen
+              </h4> */}
+              
+              <div className="p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-[#0067B0]/50 transition-all hover:shadow-lg hover:shadow-[#0067B0]/10">
+                <h5 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-[#0067B0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Bürgersprechstunde
+                </h5>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
+                    <div className="w-12 h-12 rounded-xl bg-[#0067B0]/20 flex items-center justify-center shrink-0">
+                      <span className="text-white font-bold text-sm">Di</span>
+                    </div>
+                    <div className="text-sm">
+                      <p className="text-white font-semibold">Dienstag</p>
+                      <p className="text-gray-400">13:00 – 16:00 Uhr</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
+                    <div className="w-12 h-12 rounded-xl bg-[#0067B0]/20 flex items-center justify-center shrink-0">
+                      <span className="text-white font-bold text-sm">Do</span>
+                    </div>
+                    <div className="text-sm">
+                      <p className="text-white font-semibold">Donnerstag</p>
+                      <p className="text-gray-400">09:00 – 12:00 Uhr</p>
+                      <p className="text-gray-400">13:00 – 18:00 Uhr</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Spalte 4: Notfall-Card */}
+            <div className="lg:col-span-3">
+              <div className="relative p-6 rounded-2xl bg-gradient-to-br from-red-950/50 via-red-900/30 to-transparent border border-red-500/20 overflow-hidden group hover:border-red-500/40 hover:shadow-xl hover:shadow-red-500/10 transition-all">
+                {/* Animated Glow */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 rounded-full blur-3xl group-hover:bg-red-500/30 transition-colors"></div>
+                
+                {/* Pulse Indicator */}
+                <div className="absolute top-4 right-4">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                  </span>
+                </div>
+
+                <div className="relative">
+                  <div className="inline-block bg-white/95 p-2.5 rounded-xl mb-4">
+                    <img src="/DNWAB_Logo.webp" alt="DNWAB" className="h-7 w-auto" />
+                  </div>
+
+                  <p className="text-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+                    24/7 Notdienst
+                  </p>
+                  <h4 className="text-white text-base font-bold mb-4">
+                    Havariefall Betriebsführer
+                  </h4>
+
+                  <div className="space-y-3">
+                    <a 
+                      href="tel:08008807088"
+                      className="block text-2xl font-black text-white hover:text-red-400 transition-colors tracking-tight"
+                    >
+                      0800 / 8807088
+                    </a>
+                    <p className="text-xs text-gray-400">
+                      RUND UM DIE UHR
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 bg-black/40 backdrop-blur-sm">
+          <div className="max-w-[1400px] mx-auto px-6 py-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+              <p>
+                &copy; {new Date().getFullYear()} Wasser- und Abwasserzweckverband Blankenfelde-Mahlow. Alle Rechte vorbehalten.
+              </p>
+              <div className="flex items-center gap-6">
+                <Link href="#" className="hover:text-gray-300 transition-colors">Datenschutz</Link>
+                <Link href="#" className="hover:text-gray-300 transition-colors">Impressum</Link>
+                <Link href="#" className="hover:text-gray-300 transition-colors">Barrierefreiheit</Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
