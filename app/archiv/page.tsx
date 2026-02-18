@@ -5,7 +5,8 @@ import { newsData } from '@/data/news';
 
 export default function ArchivPage() {
   return (
-    <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32">
+    // NEU: Einheitliche Abstände
+    <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32 lg:pt-52">
       <Navbar />
       <div className="max-w-5xl mx-auto px-6 w-full flex-grow mb-20">
         <h1 className="text-4xl font-extrabold text-blue-900 mb-4">News-Archiv</h1>

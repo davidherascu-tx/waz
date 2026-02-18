@@ -83,12 +83,11 @@ export default function Home() {
   const aktuelleNews = newsData.slice(0, 3);
 
   return (
-    // NEU: Responsives Padding! pt-[100px] für Mobil und lg:pt-[150px] für Desktop
-    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800 pt-[100px] lg:pt-[150px]">
+    // NEU: Einheitliche Abstände
+    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
-      {/* ─── HERO ─────────────────────────────────────────────── */}
-      <section className="px-4 md:px-6 lg:px-8 pt-4 md:pt-8 pb-0">
+      <section className="px-4 md:px-6 lg:px-8 pb-0">
         <div className="max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-[#0067B0]/15">
           <div
             className="relative w-full group"
@@ -126,7 +125,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── LEISTUNGEN ───────────────────────────────────────── */}
       <section id="leistungen" className="px-4 md:px-6 lg:px-8 py-16">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
@@ -178,7 +176,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── CTA BANNER ───────────────────────────────────────── */}
       <section className="px-4 md:px-6 lg:px-8 pb-10">
         <div className="max-w-[1400px] mx-auto">
           <div className="relative bg-gradient-to-r from-[#00346A] to-[#0067B0] rounded-3xl px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden shadow-xl shadow-[#0067B0]/20">
@@ -206,7 +203,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── AKTUELLES ────────────────────────────────────────── */}
       <section id="aktuelles" className="bg-white border-t border-slate-100 px-4 md:px-6 lg:px-8 py-16">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-10 gap-4">

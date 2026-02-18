@@ -3,19 +3,13 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { newsData } from '@/data/news';
 
-// NEU: Wir haben "async" und "Promise" hinzugefügt (Next.js 15 Standard)
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
-  
-  // NEU: Wir warten kurz, bis die ID aus der URL vollständig geladen ist
   const resolvedParams = await params;
-  
-  // Jetzt suchen wir den passenden Artikel
   const article = newsData.find((item) => item.id === resolvedParams.id);
 
-  // Wenn wirklich nichts gefunden wird (z.B. falscher Link)
   if (!article) {
     return (
-      <main className="min-h-screen flex flex-col bg-slate-50 pt-32 text-center">
+      <main className="min-h-screen flex flex-col bg-slate-50 pt-32 text-center lg:pt-52">
         <Navbar />
         <div className="flex-grow flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold text-blue-900 mb-4">Beitrag nicht gefunden</h1>
@@ -27,7 +21,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32">
+    // NEU: Einheitliche Abstände
+    <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
       <article className="max-w-4xl mx-auto px-6 w-full flex-grow mb-20 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100 mt-8">
