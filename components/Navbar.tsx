@@ -196,6 +196,7 @@ function SimpleDropdown({ items }: { items: NavLeaf[] }) {
   );
 }
 
+// ─── Mobile Menu ──────────────────────────────────────────────
 type MobileItem = {
   label: string;
   href?: string;
@@ -238,20 +239,20 @@ function MobileSection({ item }: { item: MobileItem }) {
       >
         {item.label}
         <svg
-          className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180 text-[#0067B0]' : ''}`}
+          className={`w-5 h-5 text-[#0067B0] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
-      {open && (
-        <div className="pb-3 pl-2 space-y-0">
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? 'max-h-[1000px] pb-3' : 'max-h-0'}`}>
+        <div className="pl-2 space-y-0">
           {children.map((child) => (
             <MobileChild key={child.label} item={child} />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -279,14 +280,14 @@ function MobileChild({ item }: { item: MobileItem }) {
       >
         {item.label}
         <svg
-          className={`w-4 h-4 mr-2 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180 text-[#0067B0]' : ''}`}
+          className={`w-4 h-4 mr-2 text-slate-400 transition-transform duration-300 ${open ? 'rotate-180 text-[#0067B0]' : ''}`}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      {open && (
-        <div className="pl-4 pb-2 space-y-0">
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? 'max-h-[500px] pb-2' : 'max-h-0'}`}>
+        <div className="pl-4 space-y-0">
           {item.sub!.map((s) => (
             <Link
               key={s.label}
@@ -297,7 +298,7 @@ function MobileChild({ item }: { item: MobileItem }) {
             </Link>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -305,14 +306,33 @@ function MobileChild({ item }: { item: MobileItem }) {
 export default function Navbar() {
   const [activeIdx, setActiveIdx]   = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  // States für Scroll-Verhalten
   const [scrolled, setScrolled]     = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    // Wenn man mehr als 20px nach unten scrollt, löst die Animation aus
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Allgemeiner Scroll-Status für Styling
+      setScrolled(currentScrollY > 20);
+
+      // Bestimmen, in welche Richtung gescrollt wird (nur auslösen nach 50px Scroll)
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+        setIsScrollingDown(true);
+      } else if (currentScrollY < lastScrollY.current) {
+        setIsScrollingDown(false);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -340,22 +360,21 @@ export default function Navbar() {
           from { opacity:0; transform: translateY(-8px); }
           to   { opacity:1; transform: translateY(0); }
         }
-        @keyframes slideDown {
-          from { opacity:0; max-height:0; }
-          to   { opacity:1; max-height:600px; }
-        }
-        .mobile-drawer { animation: slideDown .25s ease-out forwards; overflow: hidden; }
       `}</style>
 
+      {/* Die Magie passiert hier: 
+        isScrollingDown && !mobileOpen ? '-translate-y-full lg:translate-y-0' 
+        -> Schiebt die Navbar nach oben weg, ABER lg:translate-y-0 verhindert das auf dem Desktop!
+      */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-          scrolled
+          scrolled || mobileOpen
             ? 'bg-white/95 backdrop-blur-xl shadow-lg shadow-slate-900/10 border-b border-slate-100'
             : 'bg-white border-b border-slate-100'
-        }`}
+        } ${isScrollingDown && !mobileOpen ? '-translate-y-full lg:translate-y-0' : 'translate-y-0'}`}
       >
 
-        {/* ── Top utility bar (Wird beim Scrollen sanft ausgeblendet) ── */}
+        {/* ── Top utility bar ── */}
         <div 
           className={`hidden lg:block bg-slate-50 transition-all duration-500 ease-in-out overflow-hidden ${
             scrolled ? 'h-0 opacity-0' : 'h-10 opacity-100 border-b border-slate-100'
@@ -385,16 +404,15 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Main nav row (Wird beim Scrollen etwas schmaler) ── */}
+        {/* ── Main nav row ── */}
         <nav 
-          className={`max-w-[1400px] mx-auto px-6 flex items-center justify-between transition-all duration-500 ease-in-out ${
-            scrolled ? 'h-16' : 'h-24'
+          className={`relative max-w-[1400px] mx-auto px-6 flex items-center justify-between transition-all duration-500 ease-in-out ${
+            scrolled || mobileOpen ? 'h-16' : 'h-24'
           }`}
         >
 
           {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
-            {/* Desktop Logo: Schrumpft beim Scrollen mit */}
+          <Link href="/" className="flex items-center shrink-0 z-50">
             <img 
               src="/waz_logo_menu.webp" 
               alt="WAZ Blankenfelde-Mahlow" 
@@ -402,12 +420,11 @@ export default function Navbar() {
                 scrolled ? 'h-10' : 'h-14'
               }`} 
             />
-            {/* Mobile Logo: Bleibt kompakt */}
             <img 
               src="/waz_logo.webp" 
               alt="WAZ Logo" 
               className={`block lg:hidden w-auto object-contain transition-all duration-500 ${
-                scrolled ? 'h-8' : 'h-10'
+                scrolled || mobileOpen ? 'h-8' : 'h-10'
               }`} 
             />
           </Link>
@@ -486,51 +503,66 @@ export default function Navbar() {
               Aktuelles
             </a>
 
-            {/* Mobile burger */}
+            {/* NEUES ANIMIERTES BURGER-MENU */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden flex flex-col justify-center items-center w-11 h-11 rounded-xl hover:bg-slate-100 transition-colors gap-[5px]"
+              className="lg:hidden relative flex flex-col justify-center items-center w-11 h-11 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 transition-colors z-50 shadow-sm border border-slate-100"
               aria-label="Menü"
             >
-              <span className={`block w-6 h-[2px] bg-slate-700 rounded-full transition-all duration-300 origin-center ${mobileOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
-              <span className={`block w-6 h-[2px] bg-slate-700 rounded-full transition-all duration-200 ${mobileOpen ? 'opacity-0 w-0' : ''}`} />
-              <span className={`block w-6 h-[2px] bg-slate-700 rounded-full transition-all duration-300 origin-center ${mobileOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+              <div className="w-5 flex flex-col gap-[5px] items-end">
+                <span className={`h-[2px] bg-current rounded-full transition-all duration-300 ease-out ${mobileOpen ? 'w-5 rotate-45 translate-y-[7px]' : 'w-5'}`} />
+                <span className={`h-[2px] bg-current rounded-full transition-all duration-300 ease-out ${mobileOpen ? 'opacity-0 translate-x-2' : 'w-4'}`} />
+                <span className={`h-[2px] bg-current rounded-full transition-all duration-300 ease-out ${mobileOpen ? 'w-5 -rotate-45 -translate-y-[7px]' : 'w-3'}`} />
+              </div>
             </button>
           </div>
         </nav>
 
-        {/* ── Mobile drawer ────────────────────────────────────── */}
-        {mobileOpen && (
-          <div className="mobile-drawer lg:hidden bg-white border-t border-slate-100 max-h-[80vh] overflow-y-auto">
+        {/* ── Mobile drawer ── */}
+        <div 
+          className={`lg:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-100 shadow-[0_20px_40px_rgba(0,0,0,0.1)] transition-all duration-400 ease-in-out origin-top overflow-hidden ${
+            mobileOpen ? 'max-h-[85vh] opacity-100 visible' : 'max-h-0 opacity-0 invisible'
+          }`}
+        >
+          <div className="overflow-y-auto max-h-[85vh]">
             <div className="px-5 py-2">
               {navItems.map((item) => (
                 <MobileSection key={item.label} item={item as MobileItem} />
               ))}
             </div>
 
-            <div className="px-5 py-4 bg-slate-50 border-t border-slate-100 flex flex-col gap-3">
+            <div className="px-5 py-6 bg-slate-50 border-t border-slate-100 flex flex-col gap-3">
               <a
                 href="/kundenportal"
-                className="flex items-center justify-center gap-2 w-full py-3.5 border-2 border-[#0067B0] text-[#0067B0] text-sm font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-4 border-2 border-[#0067B0] text-[#0067B0] text-[15px] font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 Kundenportal
               </a>
               <a
                 href="/archiv"
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#0067B0] text-white text-sm font-bold rounded-2xl hover:bg-[#004e87] transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-4 bg-[#0067B0] text-white text-[15px] font-bold rounded-2xl hover:bg-[#004e87] transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
                 Aktuelles
               </a>
             </div>
           </div>
-        )}
+        </div>
       </header>
+      
+      {/* Dunkles Overlay im Hintergrund bei offenem Mobile-Menü */}
+      <div 
+        onClick={() => setMobileOpen(false)}
+        className={`lg:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+          mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+        style={{ top: scrolled ? '64px' : '96px' }}
+      />
     </>
   );
 }

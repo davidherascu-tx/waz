@@ -83,19 +83,17 @@ export default function Home() {
   const aktuelleNews = newsData.slice(0, 3);
 
   return (
-    // NEU: paddingTop von 105px auf 140px erhöht
-    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800" style={{ paddingTop: '140px' }}>
+    // NEU: Responsives Padding! pt-[100px] für Mobil und lg:pt-[150px] für Desktop
+    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800 pt-[100px] lg:pt-[150px]">
       <Navbar />
 
       {/* ─── HERO ─────────────────────────────────────────────── */}
-      {/* NEU: Auch hier etwas mehr "pt-8" hinzugefügt für mehr Luft nach oben */}
-      <section className="px-4 md:px-6 lg:px-8 pt-6 md:pt-8 pb-0">
+      <section className="px-4 md:px-6 lg:px-8 pt-4 md:pt-8 pb-0">
         <div className="max-w-[1400px] mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-[#0067B0]/15">
           <div
             className="relative w-full group"
             style={{ height: 'clamp(380px, 52vh, 620px)' }}
           >
-            {/* Video */}
             <video
               autoPlay loop muted playsInline
               className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[9000ms]"
@@ -103,11 +101,9 @@ export default function Home() {
               <source src="/wassertropfen.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlays */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#00346A]/92 via-[#0067B0]/60 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
-            {/* Hero content */}
             <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-14 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/12 backdrop-blur-md text-white/90 text-xs font-semibold mb-5 border border-white/20 w-fit tracking-wider uppercase">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
