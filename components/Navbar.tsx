@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 // ─── Typ-Definitionen ─────────────────────────────────────────
 type NavLeaf  = { label: string; href: string };
@@ -15,6 +16,15 @@ type NavItem  = {
   mega?: boolean;
   columns?: Column[];
 };
+
+// ─── Hilfsfunktionen für Externe Links ────────────────────────
+const isExternal = (href: string) => href.startsWith('http');
+
+const ExternalIcon = () => (
+  <svg className="w-3 h-3 ml-1 inline-block text-slate-400 opacity-70 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+  </svg>
+);
 
 // ─── Menüstruktur ─────────────────────────────────────────────
 const navItems: NavItem[] = [
@@ -75,12 +85,12 @@ const navItems: NavItem[] = [
       {
         heading: 'Online-Services',
         items: [
-          { label: 'Online-Zählerstand',     href: '/service/zaehlerstand' },
-          { label: 'Leitungsauskunft online', href: '/service/leitungsauskunft' },
+          { label: 'Online-Zählerstand',     href: 'https://zaehlerstand.dnwab.de/' },
+          { label: 'Leitungsauskunft online', href: 'https://leitungsauskunft.dnwab.de/LineRegister/' },
           {
             label: 'Installateursuche',
             sub: [
-              { label: 'Installateurverzeichnis', href: '/service/installateure' },
+              { label: 'Installateurverzeichnis', href: 'https://www.dnwab.de/?open_service=installateurverzeichnis' },
             ],
           },
         ],
@@ -102,24 +112,35 @@ function isNavGroup(item: NavLeaf | NavGroup): item is NavGroup {
   return 'sub' in item && Array.isArray((item as NavGroup).sub);
 }
 
-// --- DESKTOP KOMPONENTEN ---
+// ─── DESKTOP KOMPONENTEN ──────────────────────────────────────
+
 function SubItemList({ items }: { items: NavLeaf[] }) {
   return (
     <ul className="mt-1 ml-0 border-l-2 border-[#0067B0]/20 pl-4 space-y-1">
-      {items.map((sub) => (
-        <li key={sub.label}>
-          <Link href={sub.href} className="block text-sm text-slate-500 hover:text-[#0067B0] transition-colors py-0.5 leading-snug">
-            {sub.label}
-          </Link>
-        </li>
-      ))}
+      {items.map((sub) => {
+        const external = isExternal(sub.href);
+        return (
+          <li key={sub.label}>
+            <Link 
+              href={sub.href} 
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              className="block text-sm text-slate-500 hover:text-[#0067B0] transition-colors py-0.5 leading-snug"
+            >
+              {sub.label}
+              {external && <ExternalIcon />}
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
 function MegaMenu({ columns }: { columns: Column[] }) {
   return (
-    <div className="absolute top-full mt-3 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ width: '860px', left: '50%' }}>
+    // HIER GEÄNDERT: Breite auf 1080px erhöht
+    <div className="absolute top-full mt-3 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ width: '1080px', left: '50%' }}>
       <div className="h-[3px] bg-gradient-to-r from-[#0067B0] via-[#00a8e0] to-[#00C2E0]" />
       <div className="grid p-6 gap-0" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
         {columns.map((col, ci) => (
@@ -134,9 +155,21 @@ function MegaMenu({ columns }: { columns: Column[] }) {
                       <SubItemList items={item.sub} />
                     </div>
                   ) : (
-                    <Link href={(item as NavLeaf).href} className="block text-[15px] text-slate-600 hover:text-[#0067B0] hover:bg-[#0067B0]/5 rounded-lg px-2 py-1.5 -mx-2 transition-all">
-                      {item.label}
-                    </Link>
+                    (() => {
+                      const leaf = item as NavLeaf;
+                      const external = isExternal(leaf.href);
+                      return (
+                        <Link 
+                          href={leaf.href} 
+                          target={external ? "_blank" : undefined}
+                          rel={external ? "noopener noreferrer" : undefined}
+                          className="block text-[15px] text-slate-600 hover:text-[#0067B0] hover:bg-[#0067B0]/5 rounded-lg px-2 py-1.5 -mx-2 transition-all"
+                        >
+                          {leaf.label}
+                          {external && <ExternalIcon />}
+                        </Link>
+                      );
+                    })()
                   )}
                 </li>
               ))}
@@ -150,22 +183,32 @@ function MegaMenu({ columns }: { columns: Column[] }) {
 
 function SimpleDropdown({ items }: { items: NavLeaf[] }) {
   return (
-    <div className="absolute top-full mt-3 w-64 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ left: '50%' }}>
+    // HIER: Breite w-80 beibehalten (für "Über uns")
+    <div className="absolute top-full mt-3 w-80 bg-white rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-100 overflow-hidden z-50 animate-fade-in-center" style={{ left: '50%' }}>
       <div className="h-[3px] bg-gradient-to-r from-[#0067B0] to-[#00C2E0]" />
       <ul className="p-2">
-        {items.map((item) => (
-          <li key={item.label}>
-            <Link href={item.href} className="block px-4 py-2.5 text-[15px] text-slate-600 hover:text-[#0067B0] hover:bg-[#0067B0]/5 rounded-xl transition-all">
-              {item.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((item) => {
+          const external = isExternal(item.href);
+          return (
+            <li key={item.label}>
+              <Link 
+                href={item.href}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
+                className="block px-4 py-2.5 text-[15px] text-slate-600 hover:text-[#0067B0] hover:bg-[#0067B0]/5 rounded-xl transition-all"
+              >
+                {item.label}
+                {external && <ExternalIcon />}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
 }
 
-// ─── MOBILE KOMPONENTEN MIT ÜBERKATEGORIEN ───
+// ─── MOBILE KOMPONENTEN ───────────────────────────────────────
 type MobileItem = {
   label: string;
   href?: string;
@@ -179,9 +222,18 @@ function MobileSection({ item }: { item: MobileItem }) {
   const hasChildren = !!item.columns?.length || !!item.children?.length;
 
   if (!hasChildren && item.href) {
+    const external = isExternal(item.href);
     return (
-      <Link href={item.href} className="flex items-center justify-between py-4 text-[17px] font-extrabold text-slate-800 border-b border-slate-100 active:text-[#0067B0] transition-colors">
-        {item.label}
+      <Link 
+        href={item.href} 
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className="flex items-center justify-between py-4 text-[17px] font-extrabold text-slate-800 border-b border-slate-100 active:text-[#0067B0] transition-colors"
+      >
+        <span>
+          {item.label}
+          {external && <ExternalIcon />}
+        </span>
       </Link>
     );
   }
@@ -226,13 +278,23 @@ function MobileSection({ item }: { item: MobileItem }) {
 }
 
 function MobileChild({ item }: { item: MobileItem }) {
+  // Mobile: Aufklappbare Untermenüs (Original-Design)
   const [open, setOpen] = useState(false);
   const hasSub = item.sub && item.sub.length > 0;
 
   if (!hasSub && item.href) {
+    const external = isExternal(item.href);
     return (
-      <Link href={item.href} className="flex items-center px-4 py-3.5 text-[15px] font-bold text-slate-700 bg-white rounded-xl shadow-sm border border-slate-100/60 active:text-[#0067B0] transition-all">
-        {item.label}
+      <Link 
+        href={item.href} 
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className="flex items-center px-4 py-3.5 text-[15px] font-bold text-slate-700 bg-white rounded-xl shadow-sm border border-slate-100/60 active:text-[#0067B0] transition-all"
+      >
+        <span>
+          {item.label}
+          {external && <ExternalIcon />}
+        </span>
       </Link>
     );
   }
@@ -247,11 +309,21 @@ function MobileChild({ item }: { item: MobileItem }) {
       </button>
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? 'max-h-[500px]' : 'max-h-0'}`}>
         <div className="px-4 pb-3 pt-1 space-y-1 border-t border-slate-50 bg-slate-50/50">
-          {item.sub!.map((s) => (
-            <Link key={s.label} href={s.href} className="block py-2.5 text-sm font-medium text-slate-500 active:text-[#0067B0] transition-colors border-b border-slate-100/50 last:border-0">
-              {s.label}
-            </Link>
-          ))}
+          {item.sub!.map((s) => {
+            const external = isExternal(s.href);
+            return (
+              <Link 
+                key={s.label} 
+                href={s.href} 
+                target={external ? "_blank" : undefined}
+                rel={external ? "noopener noreferrer" : undefined}
+                className="block py-2.5 text-sm font-medium text-slate-500 active:text-[#0067B0] transition-colors border-b border-slate-100/50 last:border-0"
+              >
+                {s.label}
+                {external && <ExternalIcon />}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -268,6 +340,7 @@ export default function Navbar() {
   
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastScrollY = useRef(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -301,6 +374,10 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', close);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   const enter = (i: number) => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     setActiveIdx(i);
@@ -321,7 +398,7 @@ export default function Navbar() {
         }
       `}</style>
 
-      {/* NEU: Schwebe-Effekt durch max-w, left-1/2, top-Abstand und rounded-2xl */}
+      {/* Schwebe-Effekt durch max-w, left-1/2, top-Abstand und rounded-2xl */}
       <header
         className={`fixed z-50 transition-all duration-500 ease-in-out left-1/2 -translate-x-1/2 w-[96%] max-w-[1400px] border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)] ${
           mobileOpen ? 'rounded-t-2xl rounded-b-none' : 'rounded-2xl'
@@ -345,9 +422,10 @@ export default function Navbar() {
               Di: 13:00 - 16:00 Uhr und Do: 09:00 - 12:00 Uhr & 13:00 - 18:00 Uhr
             </span>
             <span className="text-slate-300">|</span>
-            <a href="/service/zaehlerstand" className="flex items-center gap-1.5 text-[#0067B0] font-semibold hover:text-[#004e87] transition-colors">
+            <a href="https://zaehlerstand.dnwab.de/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[#0067B0] font-semibold hover:text-[#004e87] transition-colors">
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" /></svg>
               Zählerstand melden
+              <ExternalIcon />
             </a>
           </div>
         </div>
@@ -356,7 +434,8 @@ export default function Navbar() {
         <nav className={`relative w-full px-5 lg:px-6 flex items-center justify-between transition-all duration-500 ease-in-out ${scrolled || mobileOpen ? 'h-16' : 'h-20 lg:h-24'}`}>
           
           <Link href="/" className="flex items-center shrink-0 z-50" onClick={() => setMobileOpen(false)}>
-            <img src="/waz_logo_menu.webp" alt="WAZ Blankenfelde-Mahlow" className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-9' : 'h-12'}`} />
+            {/* Logo etwas kleiner (h-10) wie gewünscht */}
+            <img src="/waz_logo_menu.webp" alt="WAZ Blankenfelde-Mahlow" className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-9' : 'h-10'}`} />
             <img src="/waz_logo.webp" alt="WAZ Logo" className={`block lg:hidden w-auto object-contain transition-all duration-500 ${scrolled || mobileOpen ? 'h-8' : 'h-10'}`} />
           </Link>
 
@@ -364,11 +443,19 @@ export default function Navbar() {
             {navItems.map((item, i) => {
               const hasDropdown = !!(item.children || item.columns);
               const isActive = activeIdx === i;
+              const external = item.href ? isExternal(item.href) : false;
+
               return (
                 <div key={item.label} className="relative" onMouseEnter={() => hasDropdown && enter(i)} onMouseLeave={leave}>
                   {item.href && !hasDropdown ? (
-                    <Link href={item.href} className="flex items-center px-4 py-2 text-[15px] font-semibold text-slate-700 hover:text-[#0067B0] rounded-xl hover:bg-[#0067B0]/5 transition-all">
+                    <Link 
+                      href={item.href} 
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
+                      className="flex items-center px-4 py-2 text-[15px] font-semibold text-slate-700 hover:text-[#0067B0] rounded-xl hover:bg-[#0067B0]/5 transition-all"
+                    >
                       {item.label}
+                      {external && <ExternalIcon />}
                     </Link>
                   ) : (
                     <button className={`flex items-center gap-1.5 px-4 py-2 text-[15px] font-semibold rounded-xl transition-all duration-150 ${isActive ? 'text-[#0067B0] bg-[#0067B0]/8' : 'text-slate-700 hover:text-[#0067B0] hover:bg-[#0067B0]/5'}`}>
@@ -385,9 +472,10 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <a href="/kundenportal" className="hidden lg:flex items-center gap-2 px-4 py-2 border-2 border-[#0067B0] text-[#0067B0] text-sm font-bold rounded-xl hover:bg-[#0067B0]/5 transition-all">
+            <a href="https://kundenportal.waz-bm.de/waz/bkp/" target="_blank" rel="noopener noreferrer" className="hidden lg:flex items-center gap-2 px-4 py-2 border-2 border-[#0067B0] text-[#0067B0] text-sm font-bold rounded-xl hover:bg-[#0067B0]/5 transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               Kundenportal
+              <ExternalIcon />
             </a>
             <a href="/archiv" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#0067B0] hover:bg-[#004e87] text-white text-sm font-bold rounded-xl transition-all shadow-md shadow-[#0067B0]/20 hover:-translate-y-0.5">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
@@ -421,11 +509,11 @@ export default function Navbar() {
           </div>
 
           <div className="shrink-0 p-4 bg-slate-50 border-t border-slate-200 flex gap-3 shadow-[0_-10px_20px_rgba(0,0,0,0.02)] rounded-b-2xl">
-            <a href="/kundenportal" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 border-2 border-[#0067B0]/20 bg-white text-[#0067B0] text-[13px] font-bold rounded-2xl active:bg-blue-50 transition-colors">
+            <a href="https://kundenportal.waz-bm.de/waz/bkp/" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 border-2 border-[#0067B0]/20 bg-white text-[#0067B0] text-[13px] font-bold rounded-2xl active:bg-blue-50 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              Portal
+              Portal <ExternalIcon />
             </a>
             <a href="/archiv" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 bg-[#0067B0] text-white text-[13px] font-bold rounded-2xl active:bg-[#004e87] transition-colors shadow-md shadow-[#0067B0]/20">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
