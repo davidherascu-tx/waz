@@ -1,66 +1,87 @@
 // app/archiv/[id]/page.tsx
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { newsData } from '@/data/news';
+import { newsItems } from '@/app/archiv/newsData';
 
-export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+// Generiert die statischen Routen
+export function generateStaticParams() {
+  return newsItems.map((item) => ({
+    id: item.id,
+  }));
+}
+
+// WICHTIG: "async" hinzugefügt und params asynchron verarbeitet (Für Next.js 14/15)
+export default async function NewsDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+  // Entpackt die Parameter sicher
   const resolvedParams = await params;
-  const article = newsData.find((item) => item.id === resolvedParams.id);
+  
+  // Sucht den richtigen Beitrag
+  const item = newsItems.find((n) => n.id === resolvedParams.id);
 
-  if (!article) {
-    return (
-      <main className="min-h-screen flex flex-col bg-slate-50 pt-32 text-center lg:pt-52">
-        <Navbar />
-        <div className="flex-grow flex flex-col items-center justify-center">
-          <h1 className="text-4xl font-bold text-blue-900 mb-4">Beitrag nicht gefunden</h1>
-          <a href="/archiv" className="text-blue-600 hover:underline">Zurück zum Archiv</a>
-        </div>
-        <Footer />
-      </main>
-    );
+  if (!item) {
+    return notFound();
   }
 
+  // WICHTIG: Macht den Dateinamen "Browser-sicher" 
+  // (Macht aus "Frühjahrsspülung 2026.pdf" -> "Fr%C3%BChjahrssp%C3%BClung%202026.pdf")
+  const safePdfName = encodeURIComponent(item.pdf);
+
   return (
-    // NEU: Einheitliche Abstände
     <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
-      <article className="max-w-4xl mx-auto px-6 w-full flex-grow mb-20 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100 mt-8">
+      <div className="max-w-[1200px] mx-auto px-6 w-full flex-grow mb-24">
         
-        <a href="/archiv" className="inline-block text-gray-500 hover:text-blue-600 mb-8 font-medium">
-          &larr; Zurück zur Übersicht
-        </a>
+        {/* Zurück-Button */}
+        <Link href="/archiv" className="inline-flex items-center text-[#0067B0] font-bold hover:underline mb-8 bg-blue-50 px-4 py-2 rounded-xl transition-colors hover:bg-blue-100">
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Zurück zur Übersicht
+        </Link>
 
-        <header className="mb-10">
-          <span className="text-blue-600 font-semibold uppercase text-sm">{article.date}</span>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-blue-900 mt-4 leading-tight">
-            {article.title}
-          </h1>
+        <header className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div>
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 text-slate-500 rounded-lg text-sm font-bold mb-4 shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {item.date}
+            </span>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
+              {item.title}
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl leading-relaxed">
+              {item.excerpt}
+            </p>
+          </div>
+          
+          <a 
+            href={`/news/${safePdfName}`} 
+            target="_blank" 
+            download
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-[#0067B0] text-white font-bold rounded-xl hover:bg-[#004e87] transition-all shadow-md shrink-0"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            PDF Download
+          </a>
         </header>
 
-        <div className="text-lg text-gray-700 leading-relaxed mb-12 whitespace-pre-wrap">
-          {article.content}
+        {/* PDF Viewer */}
+        <div className="w-full h-[700px] md:h-[900px] bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
+          {/* Der Browser-Sichere Link wird hier genutzt */}
+          <iframe 
+            src={`/news/${safePdfName}#view=FitH`} 
+            className="w-full h-full" 
+            title={item.title}
+          />
         </div>
 
-        {/* PDF-Viewer */}
-        {article.pdfUrl && (
-          <div className="mt-12 pt-12 border-t border-gray-100">
-            <h3 className="text-2xl font-bold text-blue-900 mb-6">Zugehöriges Dokument</h3>
-            
-            <div className="w-full h-[800px] border-2 border-gray-200 rounded-xl overflow-hidden mb-6 bg-gray-200 shadow-inner">
-              <iframe 
-                src={`${article.pdfUrl}#toolbar=0`} 
-                className="w-full h-full" 
-                title={`Dokument für ${article.title}`}
-              />
-            </div>
-            
-            <a href={article.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">
-              Falls das PDF nicht lädt, klicken Sie hier zum Herunterladen.
-            </a>
-          </div>
-        )}
-      </article>
+      </div>
 
       <Footer />
     </main>

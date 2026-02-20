@@ -1,7 +1,7 @@
 // app/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { newsData } from '@/data/news';
+import { newsItems } from '@/app/archiv/newsData'; // <-- HIER ANGEPASST
 
 export default function Home() {
   const leistungen = [
@@ -80,7 +80,7 @@ export default function Home() {
     },
   ];
 
-  const aktuelleNews = newsData.slice(0, 3);
+  const aktuelleNews = newsItems.slice(0, 3); // <-- HIER ANGEPASST: Nutzt jetzt newsItems
 
   return (
     // NEU: Einheitliche Abstände
@@ -191,7 +191,9 @@ export default function Home() {
               </p>
             </div>
             <a
-              href="/service/zaehlerstand"
+              href="https://zaehlerstand.dnwab.de/" // <-- HIER EXTERNEN LINK HINZUGEFÜGT
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative shrink-0 flex items-center gap-2.5 px-8 py-4 bg-white text-[#0067B0] font-bold rounded-2xl hover:bg-blue-50 transition-all shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

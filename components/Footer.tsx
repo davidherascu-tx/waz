@@ -79,7 +79,7 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Spalte 2: Quick Links */}
+            {/* Spalte 2: Quick Links (Angepasst auf externe Links) */}
             <div className="lg:col-span-2">
               <h4 className="text-white text-sm font-bold uppercase tracking-wider mb-6 flex items-center gap-2">
                 <span className="w-1 h-4 bg-[#0067B0] rounded-full"></span>
@@ -87,21 +87,27 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 {[
-                  { label: 'Zählerstand melden', href: '/service/zaehlerstand' },
-                  { label: 'Formulare & Anträge', href: '/#leistungen' },
-                  { label: 'Leitungsauskunft', href: '/service/leitungsauskunft' },
-                  { label: 'Installateursuche', href: '/service/installateure' },
+                  { label: 'Zählerstand melden', href: 'https://zaehlerstand.dnwab.de/' },
+                  { label: 'Kundenportal', href: 'https://kundenportal.waz-bm.de/waz/bkp/' },
+                  { label: 'Leitungsauskunft', href: 'https://leitungsauskunft.dnwab.de/LineRegister/' },
+                  { label: 'Installateurverzeichnis', href: 'https://www.dnwab.de/?open_service=installateurverzeichnis' },
                 ].map((link) => (
                   <li key={link.label}>
-                    <Link 
+                    <a 
                       href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
                     >
                       <svg className="w-4 h-4 text-[#0067B0] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                       {link.label}
-                    </Link>
+                      {/* Kleines Icon für externe Links */}
+                      <svg className="w-3.5 h-3.5 ml-0.5 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -184,7 +190,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom Bar (Datenschutz und Impressum verlinkt) */}
         <div className="border-t border-white/10 bg-black/40 backdrop-blur-sm">
           <div className="max-w-[1400px] mx-auto px-6 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
@@ -192,8 +198,8 @@ export default function Footer() {
                 &copy; {new Date().getFullYear()} Wasser- und Abwasserzweckverband Blankenfelde-Mahlow. Alle Rechte vorbehalten.
               </p>
               <div className="flex items-center gap-6">
-                <Link href="#" className="hover:text-gray-300 transition-colors">Datenschutz</Link>
-                <Link href="#" className="hover:text-gray-300 transition-colors">Impressum</Link>
+                <Link href="/datenschutz" className="hover:text-gray-300 transition-colors">Datenschutz</Link>
+                <Link href="/impressum" className="hover:text-gray-300 transition-colors">Impressum</Link>
                 <Link href="#" className="hover:text-gray-300 transition-colors">Barrierefreiheit</Link>
               </div>
             </div>
