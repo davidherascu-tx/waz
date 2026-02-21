@@ -1,15 +1,54 @@
 // app/kontakt/page.tsx
+'use client';
+
+import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function KontaktPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // WICHTIG: Referenz zum Formular sofort sichern, bevor asynchrone Aufgaben starten!
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
+
+    setIsSubmitting(true);
+    setStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: formData,
+      });
+
+      // Wir lesen die echte Server-Antwort aus
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setStatus('success');
+        formElement.reset(); // Jetzt funktioniert das Leeren fehlerfrei!
+      } else {
+        console.error("Server hat Fehler gemeldet:", result.error);
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error("Netzwerkfehler:", error);
+      setStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
       <div className="max-w-[1200px] mx-auto px-6 w-full flex-grow mb-24">
         
-        {/* Header - "Service >" entfernt */}
         <header className="mb-16">
           <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
             <span className="uppercase tracking-wider font-bold text-[#0067B0]">Kontakt</span>
@@ -25,29 +64,58 @@ export default function KontaktPage() {
 
         <div className="grid lg:grid-cols-12 gap-12 items-start">
           
-          {/* Linke Spalte: Kontaktformular */}
           <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Schreiben Sie uns eine Nachricht</h2>
             
-            <form className="space-y-6">
+            {/* Erfolgsmeldung */}
+            {status === 'success' && (
+              <div className="mb-8 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-start gap-3 shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <svg className="w-6 h-6 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <h3 className="font-bold text-lg mb-1">Nachricht erfolgreich versendet!</h3>
+                  <p className="text-emerald-700 text-sm">Vielen Dank für Ihre Anfrage. Wir haben Ihre Nachricht erhalten und werden uns schnellstmöglich bei Ihnen melden.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Fehlermeldung */}
+            {status === 'error' && (
+              <div className="mb-8 p-5 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-start gap-3 shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <svg className="w-6 h-6 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <h3 className="font-bold text-lg mb-1">Fehler beim Senden</h3>
+                  <p className="text-red-700 text-sm">Entschuldigung, Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später noch einmal oder rufen Sie uns direkt an.</p>
+                </div>
+              </div>
+            )}
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2">Name / Firma *</label>
                   <input 
                     type="text" 
-                    id="name" 
+                    id="name"
+                    name="name" 
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all"
                     placeholder="Max Mustermann"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
                   <label htmlFor="kundennummer" className="block text-sm font-bold text-slate-700 mb-2">Kundennummer (falls zur Hand)</label>
                   <input 
                     type="text" 
-                    id="kundennummer" 
+                    id="kundennummer"
+                    name="kundennummer" 
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all"
                     placeholder="12345678"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -57,19 +125,23 @@ export default function KontaktPage() {
                   <label htmlFor="email" className="block text-sm font-bold text-slate-700 mb-2">E-Mail-Adresse *</label>
                   <input 
                     type="email" 
-                    id="email" 
+                    id="email"
+                    name="email" 
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all"
                     placeholder="mail@beispiel.de"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
                   <label htmlFor="telefon" className="block text-sm font-bold text-slate-700 mb-2">Telefonnummer</label>
                   <input 
                     type="tel" 
-                    id="telefon" 
+                    id="telefon"
+                    name="telefon" 
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all"
                     placeholder="Für eventuelle Rückfragen"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -78,21 +150,25 @@ export default function KontaktPage() {
                 <label htmlFor="betreff" className="block text-sm font-bold text-slate-700 mb-2">Betreff *</label>
                 <input 
                   type="text" 
-                  id="betreff" 
+                  id="betreff"
+                  name="betreff" 
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all"
                   placeholder="Ihr Anliegen kurz zusammengefasst"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div>
                 <label htmlFor="nachricht" className="block text-sm font-bold text-slate-700 mb-2">Ihre Nachricht *</label>
                 <textarea 
-                  id="nachricht" 
+                  id="nachricht"
+                  name="nachricht" 
                   rows={6}
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all resize-y"
                   placeholder="Wie können wir Ihnen helfen?"
                   required
+                  disabled={isSubmitting}
                 ></textarea>
               </div>
 
@@ -101,10 +177,12 @@ export default function KontaktPage() {
                 <label htmlFor="dateianhang" className="block text-sm font-bold text-slate-700 mb-2">Dateien hochladen (optional)</label>
                 <input 
                   type="file" 
-                  id="dateianhang" 
+                  id="dateianhang"
+                  name="dateianhang" 
                   multiple
                   className="w-full text-slate-600 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0067B0]/20 focus:border-[#0067B0] transition-all
                   file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-[#0067B0] hover:file:bg-blue-100 cursor-pointer"
+                  disabled={isSubmitting}
                 />
                 <p className="mt-2 text-xs text-slate-500">Erlaubte Formate: PDF, JPG, PNG (max. 10 MB)</p>
               </div>
@@ -116,6 +194,7 @@ export default function KontaktPage() {
                   id="datenschutz" 
                   className="mt-1 w-5 h-5 text-[#0067B0] border-slate-300 rounded focus:ring-[#0067B0]"
                   required
+                  disabled={isSubmitting}
                 />
                 <label htmlFor="datenschutz" className="text-sm text-slate-600 leading-relaxed">
                   Ich stimme zu, dass meine Angaben aus dem Kontaktformular zur Beantwortung meiner Anfrage gemäß der <a href="/datenschutz" className="text-[#0067B0] font-semibold hover:underline" target="_blank">Datenschutzerklärung</a> erhoben und verarbeitet werden. Hinweis: Sie können Ihre Einwilligung jederzeit für die Zukunft per E-Mail widerrufen.
@@ -124,17 +203,25 @@ export default function KontaktPage() {
 
               <button 
                 type="submit"
-                className="w-full sm:w-auto px-8 py-4 bg-[#0067B0] hover:bg-[#004e87] text-white font-bold rounded-xl transition-all shadow-md shadow-[#0067B0]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-4"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto px-8 py-4 bg-[#0067B0] hover:bg-[#004e87] disabled:bg-[#0067B0]/60 text-white font-bold rounded-xl transition-all shadow-md shadow-[#0067B0]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-4"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-                Nachricht absenden
+                {isSubmitting ? (
+                  <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                )}
+                {isSubmitting ? 'Wird gesendet...' : 'Nachricht absenden'}
               </button>
             </form>
           </div>
 
-          {/* Rechte Spalte: Kontaktdaten & Zeiten */}
+          {/* Rechte Spalte: Kontaktdaten */}
           <div className="lg:col-span-5 space-y-6">
             
             {/* Notdienst-Box */}
