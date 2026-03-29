@@ -1,7 +1,7 @@
 // app/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { newsItems } from '@/app/archiv/newsData'; // <-- HIER ANGEPASST
+import { newsItems } from '@/app/archiv/newsData';
 
 export default function Home() {
   const leistungen = [
@@ -80,10 +80,9 @@ export default function Home() {
     },
   ];
 
-  const aktuelleNews = newsItems.slice(0, 3); // <-- HIER ANGEPASST: Nutzt jetzt newsItems
+  const aktuelleNews = newsItems.slice(0, 3);
 
   return (
-    // NEU: Einheitliche Abstände
     <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
@@ -95,9 +94,12 @@ export default function Home() {
           >
             <video
               autoPlay loop muted playsInline
+              aria-hidden="true"
+              poster="/fallback_waz.webp"
               className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[9000ms]"
             >
               <source src="/wassertropfen.mp4" type="video/mp4" />
+              <track kind="captions" srcLang="de" label="Keine Tonspur" />
             </video>
 
             <div className="absolute inset-0 bg-gradient-to-r from-[#00346A]/92 via-[#0067B0]/60 to-transparent" />
@@ -137,7 +139,7 @@ export default function Home() {
                 <span className="w-2 h-1.5 bg-[#0067B0]/15 rounded-full" />
               </div>
             </div>
-            <p className="text-slate-500 text-sm max-w-sm leading-relaxed">
+            <p className="text-slate-600 text-sm max-w-sm leading-relaxed">
               Kompetentes Serviceportfolio rund um Ihre Wasserversorgung und Abwasserentsorgung.
             </p>
           </div>
@@ -147,11 +149,11 @@ export default function Home() {
               <a
                 key={i}
                 href={item.href}
-                className="group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col"
+                className="group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
               >
                 <div className={`absolute -right-12 -top-12 w-44 h-44 bg-gradient-to-br ${item.gradient} opacity-[0.06] rounded-full group-hover:opacity-[0.12] group-hover:scale-125 transition-all duration-500`} />
 
-                <span className="self-start inline-block px-2.5 py-1 mb-5 rounded-lg bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                <span className="self-start inline-block px-2.5 py-1 mb-5 rounded-lg bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
                   {item.badge}
                 </span>
 
@@ -165,7 +167,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#0067B0] transition-colors duration-200">
                   {item.title}
                 </h3>
-                <p className="text-sm text-slate-500 leading-relaxed flex-grow">
+                <p className="text-sm text-slate-600 leading-relaxed flex-grow">
                   {item.desc}
                 </p>
 
@@ -191,10 +193,10 @@ export default function Home() {
               </p>
             </div>
             <a
-              href="https://zaehlerstand.dnwab.de/" // <-- HIER EXTERNEN LINK HINZUGEFÜGT
+              href="https://zaehlerstand.dnwab.de/"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative shrink-0 flex items-center gap-2.5 px-8 py-4 bg-white text-[#0067B0] font-bold rounded-2xl hover:bg-blue-50 transition-all shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap"
+              className="relative shrink-0 flex items-center gap-2.5 px-8 py-4 bg-white text-[#0067B0] font-bold rounded-2xl hover:bg-blue-50 transition-all shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap focus:outline-none focus:ring-4 focus:ring-white"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
@@ -218,7 +220,7 @@ export default function Home() {
             </div>
             <a
               href="/archiv"
-              className="group flex items-center gap-2 text-[#0067B0] font-bold text-sm hover:text-[#004e87] transition-colors"
+              className="group flex items-center gap-2 text-[#0067B0] font-bold text-sm hover:text-[#004e87] transition-colors focus:outline-none focus:underline"
             >
               Alle Meldungen
               <span className="w-8 h-8 rounded-full bg-[#0067B0]/10 group-hover:bg-[#0067B0] flex items-center justify-center transition-colors">
@@ -234,7 +236,7 @@ export default function Home() {
               <a
                 href={`/archiv/${item.id}`}
                 key={item.id}
-                className={`group flex flex-col rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden ${
+                className={`group flex flex-col rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#0067B0] ${
                   idx === 0
                     ? 'border-[#0067B0]/15 bg-[#f0f7ff]'
                     : 'border-slate-100 bg-slate-50 hover:bg-white'
@@ -243,21 +245,26 @@ export default function Home() {
                 {idx === 0 && <div className="h-1 bg-gradient-to-r from-[#0067B0] to-[#00C2E0]" />}
                 <div className="p-7 flex flex-col flex-grow">
                   <div className="flex items-center justify-between mb-5">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${idx === 0 ? 'bg-[#0067B0]/10 text-[#0067B0]' : 'bg-slate-200 text-slate-600'}`}>
-                      <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${idx === 0 ? 'bg-[#0067B0]/10 text-[#0067B0]' : 'bg-slate-200 text-slate-700'}`}>
+                      <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {item.date}
                     </span>
+                    
+                    {/* HIER WAR DER FEHLER: Wir ziehen das "idx === 0" aus den Kommentaren heraus */}
                     {idx === 0 && (
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">Aktuell</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                        Aktuell
+                      </span>
                     )}
+                    
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-[#0067B0] transition-colors leading-snug">{item.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed flex-grow line-clamp-3">{item.excerpt}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed flex-grow line-clamp-3">{item.excerpt}</p>
                   <div className="mt-6 flex items-center gap-2 text-[#0067B0] font-semibold text-sm">
                     Weiterlesen
-                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -271,26 +278,26 @@ export default function Home() {
               <a
                 href={`/archiv/${item.id}`}
                 key={item.id}
-                className="group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 hover:border-[#0067B0]/30 hover:shadow-md transition-all duration-200"
+                className="group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 hover:border-[#0067B0]/30 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
               >
                 <div className={`w-1 self-stretch rounded-full shrink-0 ${idx === 0 ? 'bg-[#0067B0]' : 'bg-slate-200'}`} />
                 <div className="flex-grow min-w-0">
-                  <p className="text-xs font-semibold text-slate-400 mb-1">{item.date}</p>
+                  <p className="text-xs font-semibold text-slate-600 mb-1">{item.date}</p>
                   <h3 className="text-sm font-bold text-slate-800 group-hover:text-[#0067B0] transition-colors leading-snug line-clamp-2">
                     {item.title}
                   </h3>
                 </div>
-                <svg className="w-4 h-4 text-slate-300 group-hover:text-[#0067B0] shrink-0 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-slate-400 group-hover:text-[#0067B0] shrink-0 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </a>
             ))}
             <a
               href="/archiv"
-              className="flex items-center justify-center gap-2 w-full py-3.5 mt-2 border-2 border-[#0067B0]/20 text-[#0067B0] text-sm font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-3.5 mt-2 border-2 border-[#0067B0]/20 text-[#0067B0] text-sm font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
             >
               Alle Meldungen anzeigen
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </a>
