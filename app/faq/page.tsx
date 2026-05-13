@@ -240,19 +240,68 @@ export default function FAQPage() {
         </div>
 
         {/* Support Box */}
-        <div className="mt-20 bg-gradient-to-br from-blue-50 to-white rounded-3xl p-8 md:p-12 text-center border border-blue-100 shadow-sm flex flex-col items-center">
-          <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-[#0067B0] mb-6">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
+        <div className="mt-20 relative overflow-hidden bg-gradient-to-br from-[#00346A] to-[#0067B0] rounded-3xl p-8 md:p-14 border border-blue-100 shadow-xl shadow-[#0067B0]/20">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute -left-20 -top-20 w-72 h-72 bg-white/5 rounded-full" />
+            <div className="absolute -right-16 -bottom-16 w-72 h-72 bg-sky-400/10 rounded-full" />
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-3">Ihre Frage war nicht dabei?</h3>
-          <p className="text-lg text-slate-600 mb-8 max-w-lg">
-            Kein Problem! Unser Kundenservice hilft Ihnen gerne persönlich bei Ihrem Anliegen weiter.
-          </p>
-          <a href="/kontakt" className="inline-flex items-center justify-center px-8 py-3.5 bg-[#0067B0] text-white font-bold rounded-xl hover:bg-[#004e87] hover:shadow-lg hover:-translate-y-0.5 transition-all">
-            Zum Kontaktformular
-          </a>
+
+          <div className="relative grid md:grid-cols-[1fr_auto] gap-10 items-center">
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/12 backdrop-blur-md text-white/90 text-xs font-semibold mb-5 border border-white/20 tracking-wider uppercase">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                Persönlicher Kontakt
+              </div>
+              <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3 leading-tight">
+                Ihre Frage war nicht dabei?
+              </h3>
+              <p className="text-base md:text-lg text-blue-100 max-w-xl leading-relaxed">
+                Kein Problem! Unser Kundenservice hilft Ihnen gerne persönlich bei Ihrem Anliegen weiter – telefonisch oder per E-Mail.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 w-full md:w-auto md:min-w-[280px]">
+              <a
+                href="tel:03379376860"
+                className="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-4 focus:ring-white"
+              >
+                <span className="w-11 h-11 rounded-xl bg-blue-50 text-[#0067B0] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </span>
+                <div className="flex flex-col text-left">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Telefon</span>
+                  <span className="text-base font-bold text-[#0067B0] group-hover:text-[#004e87] transition-colors">(0 33 79) 37 68 60</span>
+                </div>
+              </a>
+
+              <a
+                href="mailto:info@waz-bm.de"
+                className="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-4 focus:ring-white"
+              >
+                <span className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </span>
+                <div className="flex flex-col text-left">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">E-Mail</span>
+                  <span className="text-base font-bold text-emerald-700 group-hover:text-emerald-800 transition-colors">info@waz-bm.de</span>
+                </div>
+              </a>
+
+              <a
+                href="/kontakt"
+                className="group inline-flex items-center justify-center gap-2 mt-1 text-sm font-bold text-white/90 hover:text-white transition-colors focus:outline-none focus:underline"
+              >
+                Alle Kontaktdaten ansehen
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
 
       </div>

@@ -208,12 +208,16 @@ export default function Home() {
               href="https://zaehlerstand.dnwab.de/"
               target="_blank"
               rel="noopener noreferrer"
-              className="relative shrink-0 flex items-center gap-2.5 px-8 py-4 bg-white text-[#0067B0] font-bold rounded-2xl hover:bg-blue-50 transition-all shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap focus:outline-none focus:ring-4 focus:ring-white"
+              className="group relative shrink-0 flex items-center gap-2.5 px-8 py-4 bg-white text-[#0067B0] font-bold rounded-2xl hover:bg-blue-50 transition-all shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 text-sm whitespace-nowrap focus:outline-none focus:ring-4 focus:ring-white"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
               </svg>
               Jetzt melden
+              <svg className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5h5m0 0v5m0-5L10 14M5 5h4M5 5v14h14v-4" />
+              </svg>
+              <span className="sr-only">(externer Link, öffnet in neuem Tab)</span>
             </a>
           </div>
         </div>
