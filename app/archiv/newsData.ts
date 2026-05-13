@@ -2,6 +2,13 @@
 
 export const newsItems = [
   {
+    id: 'zvv-einladung-mai-2026',
+    title: 'Einladung zur 1. ZVV am 19.05.2026',
+    date: '11. Mai 2026',
+    pdf: 'Einladung_1_ZVV_2026.pdf',
+    excerpt: 'Herzliche Einladung zur 1. Verbandsversammlung des Jahres 2026 im Haus des Wassers. Auf der Tagesordnung stehen unter anderem Berichte zur Abwasserzielplanung.',
+  },
+  {
     id: 'fruehjahrsspuelung-2026',
     title: 'Frühjahrsspülung 2026',
     date: '10. Februar 2026',
