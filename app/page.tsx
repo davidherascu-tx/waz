@@ -13,7 +13,6 @@ export default function Home() {
         </svg>
       ),
       desc: 'Sichere Versorgung mit höchster Wasserqualität – geprüft und zertifiziert nach gesetzlichen Standards.',
-      href: '#',
       gradient: 'from-blue-600 to-cyan-500',
       badge: 'Kernleistung',
     },
@@ -25,7 +24,6 @@ export default function Home() {
         </svg>
       ),
       desc: 'Umweltgerechte Entsorgung und Aufbereitung nach neuesten ökologischen und technischen Maßstäben.',
-      href: '#',
       gradient: 'from-teal-600 to-emerald-500',
       badge: 'Kernleistung',
     },
@@ -37,7 +35,6 @@ export default function Home() {
         </svg>
       ),
       desc: 'Kompetente Planung und fachgerechte Verlegung direkt für Ihr Grundstück und Ihren Neubau.',
-      href: '#',
       gradient: 'from-violet-600 to-purple-500',
       badge: 'Anschluss',
     },
@@ -50,7 +47,6 @@ export default function Home() {
         </svg>
       ),
       desc: 'Regelmäßige Prüfung und Instandhaltung unserer Rohrnetze und technischen Anlagen.',
-      href: '#',
       gradient: 'from-orange-600 to-amber-500',
       badge: 'Service',
     },
@@ -62,7 +58,8 @@ export default function Home() {
         </svg>
       ),
       desc: 'Bequem und schnell Ihren Wasserstand online melden – direkt, unkompliziert, jederzeit.',
-      href: '/service/zaehlerstand',
+      href: 'https://zaehlerstand.dnwab.de/',
+      external: true,
       gradient: 'from-sky-600 to-blue-500',
       badge: 'Online',
     },
@@ -145,35 +142,50 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {leistungen.map((item, i) => (
-              <a
-                key={i}
-                href={item.href}
-                className="group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
-              >
-                <div className={`absolute -right-12 -top-12 w-44 h-44 bg-gradient-to-br ${item.gradient} opacity-[0.06] rounded-full group-hover:opacity-[0.12] group-hover:scale-125 transition-all duration-500`} />
+            {leistungen.map((item, i) => {
+              const cardClass = "group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col focus:outline-none focus:ring-2 focus:ring-[#0067B0]";
+              const cardInner = (
+                <>
+                  <div className={`absolute -right-12 -top-12 w-44 h-44 bg-gradient-to-br ${item.gradient} opacity-[0.06] rounded-full group-hover:opacity-[0.12] group-hover:scale-125 transition-all duration-500`} />
 
-                <span className="self-start inline-block px-2.5 py-1 mb-5 rounded-lg bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
-                  {item.badge}
-                </span>
+                  <span className="self-start inline-block px-2.5 py-1 mb-5 rounded-lg bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
+                    {item.badge}
+                  </span>
 
-                <div
-                  className={`rounded-2xl bg-gradient-to-br ${item.gradient} text-white flex items-center justify-center mb-5 shadow-lg group-hover:scale-105 transition-transform duration-300`}
-                  style={{ width: '52px', height: '52px' }}
+                  <div
+                    className={`rounded-2xl bg-gradient-to-br ${item.gradient} text-white flex items-center justify-center mb-5 shadow-lg group-hover:scale-105 transition-transform duration-300`}
+                    style={{ width: '52px', height: '52px' }}
+                  >
+                    {item.icon}
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#0067B0] transition-colors duration-200">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed flex-grow">
+                    {item.desc}
+                  </p>
+
+                  <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${item.gradient} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
+                </>
+              );
+
+              return item.href ? (
+                <a
+                  key={i}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  className={cardClass}
                 >
-                  {item.icon}
+                  {cardInner}
+                </a>
+              ) : (
+                <div key={i} className={cardClass}>
+                  {cardInner}
                 </div>
-
-                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#0067B0] transition-colors duration-200">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed flex-grow">
-                  {item.desc}
-                </p>
-
-                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${item.gradient} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
-              </a>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

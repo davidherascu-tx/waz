@@ -98,7 +98,7 @@ const navItems: NavItem[] = [
       {
         heading: 'Informationen',
         items: [
-          { label: 'Kinderwassertag 2025', href: '/service/info/kinderwassertag' },
+          { label: 'Kinderwassertag 2026', href: '/service/info/kinderwassertag-2026' },
           { label: 'Smartmeter',           href: '/service/info/smartmeter' },
         ],
       },

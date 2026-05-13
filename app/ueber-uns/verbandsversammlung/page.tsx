@@ -26,7 +26,7 @@ export default function VerbandsversammlungPage() {
               Mitgliederliste
             </h2>
             <a 
-              href="/ueber-uns/2024_10_02_verbandsmitglieder_des_waz.pdf" 
+              href="/ueber-uns/verbandsmitglieder_des_waz.pdf" 
               target="_blank" 
               className="text-sm font-semibold text-[#0067B0] hover:underline flex items-center gap-1"
             >
@@ -37,7 +37,7 @@ export default function VerbandsversammlungPage() {
 
           <div className="w-full h-[800px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
             <iframe 
-              src="/ueber-uns/2024_10_02_verbandsmitglieder_des_waz.pdf#view=FitH" 
+              src="/ueber-uns/verbandsmitglieder_des_waz.pdf#view=FitH" 
               className="w-full h-full" 
               title="Mitglieder der Verbandsversammlung"
             />
