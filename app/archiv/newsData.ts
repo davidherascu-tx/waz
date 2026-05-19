@@ -21,12 +21,5 @@ export const newsItems = [
     date: '10. Februar 2026',
     pdf: 'Frühjahrsspülung 2026.pdf',
     excerpt: 'Termine und wichtige Hinweise zur turnusmäßigen Rohrnetzspülung in Blankenfelde, Mahlow, Diedersdorf und Jühnsdorf. Während der Spülung kann es zu Druckschwankungen kommen.',
-  },
-  {
-    id: 'kinderwassertag-2025',
-    title: 'Kinderwassertag 2025',
-    date: '14. Februar 2025',
-    pdf: 'Kinderwassertag_2025.pdf',
-    excerpt: 'Einladung zum 17. Kinderwassertag im Wasserwerk Ludwigsfelde am 6. Juni 2025. Ein buntes Programm mit Spielen und Experimenten für Kitas und Schulen.',
   }
 ];
