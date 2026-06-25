@@ -252,33 +252,42 @@ export default function Home() {
               <a
                 href={`/archiv/${item.id}`}
                 key={item.id}
-                className={`group flex flex-col rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#0067B0] ${
-                  idx === 0
-                    ? 'border-[#0067B0]/15 bg-[#f0f7ff]'
-                    : 'border-slate-100 bg-slate-50 hover:bg-white'
+                className={`group flex flex-col rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden focus:outline-none focus:ring-2 ${
+                  item.urgent
+                    ? 'border-red-200 bg-red-50/70 focus:ring-red-500'
+                    : idx === 0
+                    ? 'border-[#0067B0]/15 bg-[#f0f7ff] focus:ring-[#0067B0]'
+                    : 'border-slate-100 bg-slate-50 hover:bg-white focus:ring-[#0067B0]'
                 }`}
               >
-                {idx === 0 && <div className="h-1 bg-gradient-to-r from-[#0067B0] to-[#00C2E0]" />}
+                {item.urgent ? (
+                  <div className="h-1 bg-gradient-to-r from-red-600 to-red-400" />
+                ) : idx === 0 ? (
+                  <div className="h-1 bg-gradient-to-r from-[#0067B0] to-[#00C2E0]" />
+                ) : null}
                 <div className="p-7 flex flex-col flex-grow">
                   <div className="flex items-center justify-between mb-5">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${idx === 0 ? 'bg-[#0067B0]/10 text-[#0067B0]' : 'bg-slate-200 text-slate-700'}`}>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${item.urgent ? 'bg-red-100 text-red-700' : idx === 0 ? 'bg-[#0067B0]/10 text-[#0067B0]' : 'bg-slate-200 text-slate-700'}`}>
                       <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {item.date}
                     </span>
-                    
-                    {/* HIER WAR DER FEHLER: Wir ziehen das "idx === 0" aus den Kommentaren heraus */}
-                    {idx === 0 && (
+
+                    {item.urgent ? (
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-red-700 bg-red-100 px-2.5 py-1 rounded-full border border-red-200">
+                        Wichtig
+                      </span>
+                    ) : idx === 0 ? (
                       <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
                         Aktuell
                       </span>
-                    )}
-                    
+                    ) : null}
+
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-[#0067B0] transition-colors leading-snug">{item.title}</h3>
+                  <h3 className={`text-lg font-bold text-slate-900 mb-3 transition-colors leading-snug ${item.urgent ? 'group-hover:text-red-700' : 'group-hover:text-[#0067B0]'}`}>{item.title}</h3>
                   <p className="text-sm text-slate-600 leading-relaxed flex-grow line-clamp-3">{item.excerpt}</p>
-                  <div className="mt-6 flex items-center gap-2 text-[#0067B0] font-semibold text-sm">
+                  <div className={`mt-6 flex items-center gap-2 font-semibold text-sm ${item.urgent ? 'text-red-700' : 'text-[#0067B0]'}`}>
                     Weiterlesen
                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -296,10 +305,10 @@ export default function Home() {
                 key={item.id}
                 className="group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 hover:border-[#0067B0]/30 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
               >
-                <div className={`w-1 self-stretch rounded-full shrink-0 ${idx === 0 ? 'bg-[#0067B0]' : 'bg-slate-200'}`} />
+                <div className={`w-1 self-stretch rounded-full shrink-0 ${item.urgent ? 'bg-red-600' : idx === 0 ? 'bg-[#0067B0]' : 'bg-slate-200'}`} />
                 <div className="flex-grow min-w-0">
-                  <p className="text-xs font-semibold text-slate-600 mb-1">{item.date}</p>
-                  <h3 className="text-sm font-bold text-slate-800 group-hover:text-[#0067B0] transition-colors leading-snug line-clamp-2">
+                  <p className={`text-xs font-semibold mb-1 ${item.urgent ? 'text-red-700' : 'text-slate-600'}`}>{item.date}</p>
+                  <h3 className={`text-sm font-bold text-slate-800 transition-colors leading-snug line-clamp-2 ${item.urgent ? 'group-hover:text-red-700' : 'group-hover:text-[#0067B0]'}`}>
                     {item.title}
                   </h3>
                 </div>

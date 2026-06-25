@@ -44,12 +44,22 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
 
         <header className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 text-slate-500 rounded-lg text-sm font-bold mb-4 shadow-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              {item.date}
-            </span>
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-bold shadow-sm border ${item.urgent ? 'bg-red-50 border-red-200 text-red-700' : 'bg-white border-slate-200 text-slate-500'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {item.date}
+              </span>
+              {item.urgent && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 text-white rounded-lg text-sm font-bold shadow-sm">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                  </svg>
+                  Wichtig
+                </span>
+              )}
+            </div>
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
               {item.title}
             </h1>

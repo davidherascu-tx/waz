@@ -1,6 +1,23 @@
 // app/archiv/newsData.ts
 
-export const newsItems = [
+export type NewsItem = {
+  id: string;
+  title: string;
+  date: string;
+  pdf: string;
+  excerpt: string;
+  urgent?: boolean;
+};
+
+export const newsItems: NewsItem[] = [
+  {
+    id: 'spitzenlastsituation-2026',
+    title: 'Spitzenlastsituation – Gartenbewässerung bitte einstellen',
+    date: '25. Juni 2026',
+    pdf: '20260625_Spitzenlastsituation.pdf',
+    excerpt: 'Aufgrund der aktuellen Witterungslage laufen die Anlagen zur Wasserversorgung an ihrer Belastungsgrenze. Wir bitten Sie, in den Spitzenzeiten von 7:00 – 11:00 Uhr und 15:00 – 22:00 Uhr auf Gartenbewässerung und Poolbefüllungen zu verzichten.',
+    urgent: true,
+  },
   {
     id: 'kinderwassertag-2026',
     title: 'Kinderwassertag 2026',
