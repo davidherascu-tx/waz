@@ -1,6 +1,15 @@
 // app/service/amtsblatt/archiv/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Amtsblatt-Archiv',
+  description:
+    'Alle bisher veröffentlichten Amtsblätter des WAZ Blankenfelde-Mahlow seit 2015, nach Jahrgängen sortiert zum Download.',
+  path: '/service/amtsblatt/archiv',
+});
 
 // Alle Amtsblätter hier eintragen. 
 // WICHTIG: Im Dateinamen (file) müssen Schrägstriche "/" durch Unterstriche "_" ersetzt werden!

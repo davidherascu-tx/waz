@@ -1,6 +1,15 @@
 // app/ueber-uns/verbandsversammlung/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Verbandsversammlung',
+  description:
+    'Übersicht der aktuellen Vertreter der Verbandsmitglieder in der Verbandsversammlung des WAZ Blankenfelde-Mahlow.',
+  path: '/ueber-uns/verbandsversammlung',
+});
 
 export default function VerbandsversammlungPage() {
   return (
@@ -36,7 +45,7 @@ export default function VerbandsversammlungPage() {
           </div>
 
           <div className="w-full h-[800px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe 
+            <iframe loading="lazy" 
               src="/ueber-uns/verbandsmitglieder_des_waz.pdf#view=FitH" 
               className="w-full h-full" 
               title="Mitglieder der Verbandsversammlung"

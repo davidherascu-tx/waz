@@ -1,6 +1,15 @@
 // app/service/formulare/trinkwasser/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Formulare Trinkwasser',
+  description:
+    'Anträge, Formulare und technische Merkblätter rund um Ihren Trinkwasseranschluss und Wasserzähler zum Download.',
+  path: '/service/formulare/trinkwasser',
+});
 
 const formulare = [
   { 

@@ -1,6 +1,15 @@
 // app/service/satzungen/allgemein/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Allgemeine Satzungen',
+  description:
+    'Verbandssatzung und weitere allgemeine rechtliche Grundlagen des WAZ Blankenfelde-Mahlow als PDF zum Download.',
+  path: '/service/satzungen/allgemein',
+});
 
 // Hier einfach neue Dokumente hinzufügen – die Sortierung passiert automatisch!
 const documents = [

@@ -1,6 +1,15 @@
 // app/service/info/smartmeter/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Smartmeter – digitale Zähler',
+  description:
+    'Alles zum Einbau der neuen digitalen Wasserzähler im Verbandsgebiet: Technik, Funkübertragung, Datenschutz und Ablauf.',
+  path: '/service/info/smartmeter',
+});
 
 export default function SmartmeterPage() {
   const flyerPdf = "Flyer_WAZ_SM.pdf";
@@ -124,7 +133,7 @@ export default function SmartmeterPage() {
           </div>
 
           <div className="w-full h-[700px] md:h-[900px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe 
+            <iframe loading="lazy" 
               src={`/service/info/${flyerPdf}#view=FitH`} 
               className="w-full h-full" 
               title="Flyer Smartmeter"

@@ -1,6 +1,15 @@
 // app/service/daten-waz/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Daten und Kennzahlen',
+  description:
+    'Kennzahlen und statistische Daten zur Trinkwasserversorgung und Abwasserentsorgung im Verbandsgebiet Blankenfelde-Mahlow.',
+  path: '/service/daten-waz',
+});
 
 export default function DatenWAZPage() {
   const pdfFile = "Der_WAZ_in_Zahlen.pdf";
@@ -42,7 +51,7 @@ export default function DatenWAZPage() {
           </div>
 
           <div className="w-full h-[800px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe 
+            <iframe loading="lazy" 
               src={`/service/daten-waz/${pdfFile}#view=FitH`} 
               className="w-full h-full" 
               title="Der WAZ in Zahlen"

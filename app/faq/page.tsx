@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -102,7 +103,7 @@ const faqs: FAQCategory[] = [
               Aufgrund der relativ geringen Sendeleistung und hohen Abstände sind unseres Ermessens nach keine gesundheitlichen Beeinträchtigungen zu befürchten. Für die Funkübertragung von Zählerdaten gelten internationale Regeln. Nach diesen darf ein Zähler für maximal 50 Sekunden pro Tag aktiv sein. Schnurlostelefone, Mobiltelefone oder WLAN-Router, die selbst im Standby-Modus mit deutlich größerer Leistung senden, wirken dagegen mehrere Stunden – wenn nicht rund um die Uhr auf ihre Umgebung ein.
             </p>
             <div className="my-6">
-              <img src="/images/hydrus.png" alt="Vergleich Funkleistung Hydrus" className="max-w-full h-auto rounded-lg border border-slate-200" />
+              <Image src="/images/hydrus.png" alt="Vergleich der Funkleistung des Hydrus-Wasserzählers" width={900} height={600} className="max-w-full h-auto rounded-lg border border-slate-200" />
             </div>
             <p>
               Die Stärke elektromagnetischer Felder nimmt mit zunehmender Entfernung zur Quelle rapide ab. So beträgt die sogenannte Dämpfung selbst im freien Raum schon in einem Meter Entfernung ca. 31 Dezibel (dB). Bereits 3 dB bedeuten aber schon eine Halbierung der Sendeleistung. Bei einem Abstand von einem Meter zum Zähler besteht nur noch ein Zehntel der ursprünglichen Sendeleistung. Typischerweise beträgt der Abstand zwischen Hausbewohner und Zähler ein Vielfaches davon – mit Wänden und Decken im Übertragungsweg, die eine deutlich größere Dämpfung bewirken, als der freie Raum. Mobil- und Schnurlostelefone hingegen werden nahe am Körper des Nutzers eingesetzt.
@@ -147,6 +148,28 @@ const faqs: FAQCategory[] = [
   }
 ];
 
+// Structured Data fuer Google: FAQPage-Markup kann die Fragen direkt in den
+// Suchergebnissen anzeigen. Beruecksichtigt werden nur Antworten, die als
+// reiner Text vorliegen (eine Antwort enthaelt eine Grafik und faellt raus).
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.flatMap((category) =>
+    category.items
+      .filter((item): item is { question: string; answer: string } =>
+        typeof item.answer === 'string',
+      )
+      .map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+  ),
+};
+
 export default function FAQPage() {
   // Speichert den Index der aktuell geöffneten Frage im Format "KategorieIndex-FragenIndex"
   const [openItem, setOpenItem] = useState<string | null>(null);
@@ -157,6 +180,11 @@ export default function FAQPage() {
 
   return (
     <main className="min-h-screen flex flex-col bg-slate-50 font-sans text-gray-800 pt-32 lg:pt-52">
+      <script
+        type="application/ld+json"
+        // Statische Inhalte aus dem faqs-Array oben, keine Nutzereingaben.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Navbar />
 
       <div className="max-w-[1200px] mx-auto px-6 w-full flex-grow mb-24">

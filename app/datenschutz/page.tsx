@@ -1,6 +1,15 @@
 // app/datenschutz/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Datenschutzerklärung',
+  description:
+    'Informationen zur Verarbeitung personenbezogener Daten beim Wasser- und Abwasserzweckverband Blankenfelde-Mahlow gemäß DSGVO.',
+  path: '/datenschutz',
+});
 
 export default function DatenschutzPage() {
   return (

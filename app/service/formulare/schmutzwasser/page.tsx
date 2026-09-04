@@ -1,6 +1,15 @@
 // app/service/formulare/schmutzwasser/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Formulare Schmutzwasser',
+  description:
+    'Anträge, Formulare und technische Merkblätter rund um Schmutzwasseranschluss und Abwasserentsorgung zum Download.',
+  path: '/service/formulare/schmutzwasser',
+});
 
 const formulare = [
   { 

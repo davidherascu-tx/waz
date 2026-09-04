@@ -1,6 +1,15 @@
 // app/service/satzungen/schmutzwasser/gebuehren/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Gebührensatzung Schmutzwasser',
+  description:
+    'Aktuelle Gebührensatzung für die Schmutzwasserentsorgung sowie alle historischen Änderungssatzungen als PDF.',
+  path: '/service/satzungen/schmutzwasser/gebuehren',
+});
 
 const documents = [
   { 

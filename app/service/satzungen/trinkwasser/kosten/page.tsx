@@ -1,6 +1,15 @@
 // app/service/satzungen/trinkwasser/kosten/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Kostenerstattungssatzung Trinkwasser',
+  description:
+    'Satzungen zur Kostenerstattung für Hausanschlüsse im Bereich der Trinkwasserversorgung des WAZ Blankenfelde-Mahlow.',
+  path: '/service/satzungen/trinkwasser/kosten',
+});
 
 const documents = [
   { 

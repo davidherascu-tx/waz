@@ -1,6 +1,15 @@
 // app/service/formulare/allgemein/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Formulare & Merkblätter',
+  description:
+    'Formulare für administrative Vorgänge sowie informative Merkblätter des WAZ Blankenfelde-Mahlow zum Herunterladen.',
+  path: '/service/formulare/allgemein',
+});
 
 const formulare = [
   { 

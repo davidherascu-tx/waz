@@ -1,6 +1,15 @@
 // app/service/satzungen/trinkwasser/technisch/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Technische Satzung Trinkwasser',
+  description:
+    'Wasserversorgungssatzung mit den technischen Bedingungen für Anschluss und Versorgung mit Trinkwasser.',
+  path: '/service/satzungen/trinkwasser/technisch',
+});
 
 const documents = [
   { 

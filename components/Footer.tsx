@@ -1,6 +1,7 @@
 // components/Footer.tsx
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -25,7 +26,7 @@ export default function Footer() {
             {/* Spalte 1: Branding & Kontakt */}
             <div className="lg:col-span-4">
               <div className="inline-block bg-white/95 backdrop-blur-sm p-4 rounded-2xl mb-6 shadow-xl shadow-[#0067B0]/20">
-                <img src="/waz_logo.webp" alt="WAZ Logo" className="h-12 w-auto" />
+                <Image src="/waz_logo.webp" alt="WAZ Blankenfelde-Mahlow" width={120} height={64} className="h-12 w-auto" />
               </div>
               
               <h3 className="text-white text-xl font-bold mb-2">
@@ -162,7 +163,7 @@ export default function Footer() {
 
                 <div className="relative">
                   <div className="inline-block bg-white/95 p-2.5 rounded-xl mb-4">
-                    <img src="/DNWAB_Logo.webp" alt="DNWAB" className="h-7 w-auto" />
+                    <Image src="/DNWAB_Logo.webp" alt="DNWAB" width={140} height={40} className="h-7 w-auto" />
                   </div>
 
                   <p className="text-red-400 text-xs font-bold uppercase tracking-widest mb-1">

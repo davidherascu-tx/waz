@@ -1,6 +1,15 @@
 // app/service/info/kinderwassertag-2026/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: '18. Kinderwassertag 2026',
+  description:
+    'Einladung zum 18. Kinderwassertag im Wasserwerk Ludwigsfelde: Programm, Termin und Anmeldung für Kitas, Schulen und Horte.',
+  path: '/service/info/kinderwassertag-2026',
+});
 
 export default function Kinderwassertag2026Page() {
   const pdfFile = "Kinderwassertag_2026.pdf";
@@ -62,7 +71,7 @@ export default function Kinderwassertag2026Page() {
           </div>
 
           <div className="w-full h-[700px] md:h-[900px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe
+            <iframe loading="lazy"
               src={`/service/info/${pdfFile}#view=FitH`}
               className="w-full h-full"
               title="Einladung zum Kinderwassertag 2026"

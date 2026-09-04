@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -33,15 +34,20 @@ export default function HausDesWassersPage() {
 
           {/* Der Bild-Slider */}
           <div className="relative w-full aspect-[850/270] rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
-            <img 
-              src="/waz_slider_hell_850.jpg" 
-              alt="Haus des Wassers bei Tag" 
-              className="absolute inset-0 w-full h-full object-cover"
+            <Image
+              src="/waz_slider_hell_850.jpg"
+              alt="Haus des Wassers in Blankenfelde-Mahlow bei Tag"
+              fill
+              priority
+              sizes="(max-width: 1000px) 100vw, 1000px"
+              className="absolute inset-0 object-cover"
             />
-            <img 
-              src="/waz_slider_dunkel_850.jpg" 
-              alt="Haus des Wassers bei Nacht" 
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ease-in-out ${
+            <Image
+              src="/waz_slider_dunkel_850.jpg"
+              alt="Haus des Wassers in Blankenfelde-Mahlow bei Nacht"
+              fill
+              sizes="(max-width: 1000px) 100vw, 1000px"
+              className={`absolute inset-0 object-cover transition-opacity duration-[2000ms] ease-in-out ${
                 showDark ? 'opacity-100' : 'opacity-0'
               }`}
             />
@@ -104,7 +110,7 @@ export default function HausDesWassersPage() {
           </div>
 
           <div className="w-full h-[800px] bg-slate-200 rounded-3xl overflow-hidden border-2 border-slate-200 shadow-inner">
-            <iframe 
+            <iframe loading="lazy" 
               src="/ueber-uns/haus_des_wassers.pdf#view=FitH" 
               className="w-full h-full" 
               title="Broschüre Haus des Wassers"

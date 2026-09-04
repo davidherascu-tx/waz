@@ -1,6 +1,15 @@
 // app/service/satzungen/schmutzwasser/beitrag/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Beitragssatzung Schmutzwasser',
+  description:
+    'Satzungen zur Erhebung von Beiträgen für die öffentliche Schmutzwasseranlage des WAZ Blankenfelde-Mahlow.',
+  path: '/service/satzungen/schmutzwasser/beitrag',
+});
 
 const documents = [
   { 

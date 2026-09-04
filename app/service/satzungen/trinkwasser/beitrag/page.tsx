@@ -1,6 +1,15 @@
 // app/service/satzungen/trinkwasser/beitrag/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Beitragssatzung Trinkwasser',
+  description:
+    'Satzungen zur Erhebung von Anschlussbeiträgen für die Trinkwasserversorgung sowie deren Abschaffung im Verbandsgebiet.',
+  path: '/service/satzungen/trinkwasser/beitrag',
+});
 
 const documents = [
   { 

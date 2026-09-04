@@ -1,6 +1,16 @@
 // app/kontakt/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Image from 'next/image';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Kontakt & Sprechzeiten',
+  description:
+    'So erreichen Sie den WAZ Blankenfelde-Mahlow: Telefon, E-Mail, Anschrift, Bürgersprechstunde und der 24-Stunden-Havariedienst.',
+  path: '/kontakt',
+});
 
 export default function KontaktPage() {
   return (
@@ -119,7 +129,7 @@ export default function KontaktPage() {
 
               <div className="relative z-10">
                 <div className="inline-block bg-white p-3 rounded-2xl mb-8 shadow-md">
-                  <img src="/DNWAB_Logo.webp" alt="DNWAB Logo" className="h-10 w-auto" />
+                  <Image src="/DNWAB_Logo.webp" alt="DNWAB Logo" width={140} height={40} className="h-10 w-auto" />
                 </div>
                 
                 <p className="text-red-100 text-xs font-black uppercase tracking-[0.2em] mb-2">24h Bereitschaftsdienst</p>

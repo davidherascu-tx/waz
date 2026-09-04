@@ -1,6 +1,15 @@
 // app/service/beitraege-gebuehren/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Beiträge und Gebühren',
+  description:
+    'Aktuelle Übersicht der Beiträge und Gebühren für Trinkwasserversorgung und Schmutzwasserentsorgung im Verbandsgebiet.',
+  path: '/service/beitraege-gebuehren',
+});
 
 const documents = [
   { 

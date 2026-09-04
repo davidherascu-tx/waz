@@ -3,6 +3,15 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { newsItems } from '@/app/archiv/newsData';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Aktuelles & Bekanntmachungen',
+  description:
+    'Alle Meldungen, amtlichen Bekanntmachungen und Pressemitteilungen des WAZ Blankenfelde-Mahlow auf einen Blick.',
+  path: '/archiv',
+});
 
 export default function ArchivPage() {
   return (

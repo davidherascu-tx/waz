@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -374,9 +375,15 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', close);
   }, []);
 
-  useEffect(() => {
+  // Mobiles Menue beim Seitenwechsel schliessen.
+  // Bewusst kein useEffect: setState im Effekt loest einen zweiten Render-
+  // Durchlauf aus (React-Warnung "cascading renders"). Das Anpassen des
+  // States waehrend des Renders ist das von React empfohlene Muster.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
     setMobileOpen(false);
-  }, [pathname]);
+  }
 
   const enter = (i: number) => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
@@ -435,8 +442,22 @@ export default function Navbar() {
           
           <Link href="/" className="flex items-center shrink-0 z-50" onClick={() => setMobileOpen(false)}>
             {/* Logo etwas kleiner (h-10) wie gewünscht */}
-            <img src="/waz_logo_menu.webp" alt="WAZ Blankenfelde-Mahlow" className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-9' : 'h-10'}`} />
-            <img src="/waz_logo.webp" alt="WAZ Logo" className={`block lg:hidden w-auto object-contain transition-all duration-500 ${scrolled || mobileOpen ? 'h-8' : 'h-10'}`} />
+            <Image
+              src="/waz_logo_menu.webp"
+              alt="WAZ Blankenfelde-Mahlow"
+              width={260}
+              height={64}
+              priority
+              className={`hidden lg:block w-auto object-contain transition-all duration-500 ease-in-out ${scrolled ? 'h-9' : 'h-10'}`}
+            />
+            <Image
+              src="/waz_logo.webp"
+              alt="WAZ Blankenfelde-Mahlow"
+              width={120}
+              height={64}
+              priority
+              className={`block lg:hidden w-auto object-contain transition-all duration-500 ${scrolled || mobileOpen ? 'h-8' : 'h-10'}`}
+            />
           </Link>
 
           <div className="hidden lg:flex items-center gap-1">
@@ -477,10 +498,10 @@ export default function Navbar() {
               Kundenportal
               <ExternalIcon />
             </a>
-            <a href="/archiv" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#0067B0] hover:bg-[#004e87] text-white text-sm font-bold rounded-xl transition-all shadow-md shadow-[#0067B0]/20 hover:-translate-y-0.5">
+            <Link href="/archiv" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-[#0067B0] hover:bg-[#004e87] text-white text-sm font-bold rounded-xl transition-all shadow-md shadow-[#0067B0]/20 hover:-translate-y-0.5">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
               Aktuelles
-            </a>
+            </Link>
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -515,12 +536,12 @@ export default function Navbar() {
               </svg>
               Portal <ExternalIcon />
             </a>
-            <a href="/archiv" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 bg-[#0067B0] text-white text-[13px] font-bold rounded-2xl active:bg-[#004e87] transition-colors shadow-md shadow-[#0067B0]/20">
+            <Link href="/archiv" onClick={() => setMobileOpen(false)} className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 bg-[#0067B0] text-white text-[13px] font-bold rounded-2xl active:bg-[#004e87] transition-colors shadow-md shadow-[#0067B0]/20">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
               News
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -1,6 +1,15 @@
 // app/impressum/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Impressum',
+  description:
+    'Anbieterkennzeichnung nach § 5 TMG: Anschrift, Kontakt, Vertretung und Aufsichtsbehörde des WAZ Blankenfelde-Mahlow.',
+  path: '/impressum',
+});
 
 export default function ImpressumPage() {
   return (

@@ -1,7 +1,22 @@
 // app/page.tsx
+import type { Metadata } from 'next';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroVideo from '@/components/HeroVideo';
 import { newsItems } from '@/app/archiv/newsData';
+import { absoluteUrl } from '@/lib/site';
+
+// Die Startseite nutzt bewusst `absolute`, damit der Titel nicht mit dem
+// Template aus dem Root-Layout doppelt gesetzt wird.
+export const metadata: Metadata = {
+  title: {
+    absolute: 'WAZ Blankenfelde-Mahlow | Trinkwasser & Abwasser',
+  },
+  description:
+    'Wasser- und Abwasserzweckverband Blankenfelde-Mahlow: Trinkwasserversorgung, Abwasserentsorgung, Zählerstand melden, Satzungen, Formulare und 24-Stunden-Havariedienst.',
+  alternates: { canonical: absoluteUrl('/') },
+};
 
 export default function Home() {
   const leistungen = [
@@ -80,7 +95,7 @@ export default function Home() {
   const aktuelleNews = newsItems.slice(0, 3);
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#f8fafc] text-gray-800 pt-32 lg:pt-52">
+    <main className="min-h-screen flex flex-col bg-[#f8fafc] font-sans text-gray-800 pt-32 lg:pt-52">
       <Navbar />
 
       <section className="px-4 md:px-6 lg:px-8 pb-0">
@@ -89,15 +104,7 @@ export default function Home() {
             className="relative w-full group"
             style={{ height: 'clamp(380px, 52vh, 620px)' }}
           >
-            <video
-              autoPlay loop muted playsInline
-              aria-hidden="true"
-              poster="/fallback_waz.webp"
-              className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[9000ms]"
-            >
-              <source src="/wassertropfen.mp4" type="video/mp4" />
-              <track kind="captions" srcLang="de" label="Keine Tonspur" />
-            </video>
+            <HeroVideo />
 
             <div className="absolute inset-0 bg-gradient-to-r from-[#00346A]/92 via-[#0067B0]/60 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
@@ -234,7 +241,7 @@ export default function Home() {
                 <span className="w-4 h-1.5 bg-[#0067B0]/30 rounded-full" />
               </div>
             </div>
-            <a
+            <Link
               href="/archiv"
               className="group flex items-center gap-2 text-[#0067B0] font-bold text-sm hover:text-[#004e87] transition-colors focus:outline-none focus:underline"
             >
@@ -244,7 +251,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </span>
-            </a>
+            </Link>
           </div>
 
           <div className="hidden lg:grid lg:grid-cols-3 gap-5">
@@ -317,7 +324,7 @@ export default function Home() {
                 </svg>
               </a>
             ))}
-            <a
+            <Link
               href="/archiv"
               className="flex items-center justify-center gap-2 w-full py-3.5 mt-2 border-2 border-[#0067B0]/20 text-[#0067B0] text-sm font-bold rounded-2xl hover:bg-[#0067B0]/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0067B0]"
             >
@@ -325,7 +332,7 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

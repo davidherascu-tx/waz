@@ -1,6 +1,15 @@
 // app/ueber-uns/chronik/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Chronik des WAZ',
+  description:
+    'Die geschichtliche Entwicklung und die wichtigsten Meilensteine des Wasser- und Abwasserzweckverbandes Blankenfelde-Mahlow.',
+  path: '/ueber-uns/chronik',
+});
 
 export default function ChronikPage() {
   return (
@@ -36,7 +45,7 @@ export default function ChronikPage() {
           </div>
 
           <div className="w-full h-[800px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe 
+            <iframe loading="lazy" 
               src="/ueber-uns/chronik_des_waz.pdf#view=FitH" 
               className="w-full h-full" 
               title="Chronik des WAZ"

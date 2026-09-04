@@ -1,6 +1,15 @@
 // app/service/satzungen/trinkwasser/gebuehren/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Gebührensatzung Trinkwasser',
+  description:
+    'Aktuelle Gebührensatzung für die Trinkwasserversorgung sowie alle historischen Änderungssatzungen als PDF.',
+  path: '/service/satzungen/trinkwasser/gebuehren',
+});
 
 const documents = [
   { 

@@ -1,6 +1,15 @@
 // app/service/amtsblatt/aktuell/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Aktuelles Amtsblatt',
+  description:
+    'Die neueste Ausgabe des Amtsblatts des WAZ Blankenfelde-Mahlow mit allen amtlichen Bekanntmachungen als PDF.',
+  path: '/service/amtsblatt/aktuell',
+});
 
 export default function AmtsblattAktuellPage() {
   // Konfiguration des aktuellen Amtsblatts
@@ -79,7 +88,7 @@ export default function AmtsblattAktuellPage() {
 
         {/* PDF Viewer */}
         <section className="w-full h-[1000px] bg-slate-200 rounded-3xl overflow-hidden border border-slate-200 shadow-inner">
-          <iframe 
+          <iframe loading="lazy" 
             src={`/service/amtsblatt/aktuell/${currentIssue.file}#view=FitH`} 
             className="w-full h-full" 
             title="Aktuelles Amtsblatt PDF"

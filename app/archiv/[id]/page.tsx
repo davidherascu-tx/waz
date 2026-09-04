@@ -1,9 +1,14 @@
 // app/archiv/[id]/page.tsx
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { newsItems } from '@/app/archiv/newsData';
+import { siteConfig, absoluteUrl } from '@/lib/site';
+import { germanDateToISO } from '@/lib/dates';
+
+type RouteParams = { id: string };
 
 // Generiert die statischen Routen
 export function generateStaticParams() {
@@ -12,8 +17,53 @@ export function generateStaticParams() {
   }));
 }
 
+// Jede Bekanntmachung bekommt eigenen Titel, Description und Canonical-URL.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams> | RouteParams;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const item = newsItems.find((n) => n.id === id);
+
+  if (!item) {
+    return {
+      title: 'Bekanntmachung nicht gefunden',
+      robots: { index: false, follow: true },
+    };
+  }
+
+  const url = absoluteUrl(`/archiv/${item.id}`);
+
+  return {
+    title: item.title,
+    description: item.excerpt,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${item.title} | ${siteConfig.name}`,
+      description: item.excerpt,
+      url,
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+      type: 'article',
+      publishedTime: germanDateToISO(item.date),
+      images: [{ url: siteConfig.ogImage, alt: `${siteConfig.name} Logo` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${item.title} | ${siteConfig.name}`,
+      description: item.excerpt,
+      images: [siteConfig.ogImage],
+    },
+  };
+}
+
 // WICHTIG: "async" hinzugefügt und params asynchron verarbeitet (Für Next.js 14/15)
-export default async function NewsDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default async function NewsDetailPage({
+  params,
+}: {
+  params: Promise<RouteParams> | RouteParams;
+}) {
   // Entpackt die Parameter sicher
   const resolvedParams = await params;
   
@@ -84,10 +134,11 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ id:
         {/* PDF Viewer */}
         <div className="w-full h-[700px] md:h-[900px] bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
           {/* Der Browser-Sichere Link wird hier genutzt */}
-          <iframe 
-            src={`/news/${safePdfName}#view=FitH`} 
-            className="w-full h-full" 
+          <iframe
+            src={`/news/${safePdfName}#view=FitH`}
+            className="w-full h-full"
             title={item.title}
+            loading="lazy"
           />
         </div>
 

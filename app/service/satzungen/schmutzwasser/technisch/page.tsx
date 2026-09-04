@@ -1,6 +1,15 @@
 // app/service/satzungen/schmutzwasser/technisch/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Technische Satzung Schmutzwasser',
+  description:
+    'Entwässerungssatzung und Satzung für die dezentrale Schmutzwasserbeseitigung mit allen technischen Anschlussbedingungen.',
+  path: '/service/satzungen/schmutzwasser/technisch',
+});
 
 const documents = [
   { 

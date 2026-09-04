@@ -1,6 +1,15 @@
 // app/ueber-uns/stellenausschreibungen/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Stellenausschreibungen',
+  description:
+    'Aktuelle Stellenangebote und Ausbildungsplätze beim WAZ Blankenfelde-Mahlow – arbeiten für die Wasserversorgung der Region.',
+  path: '/ueber-uns/stellenausschreibungen',
+});
 
 export default function StellenausschreibungenPage() {
   return (

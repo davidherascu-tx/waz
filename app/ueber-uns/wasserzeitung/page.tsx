@@ -1,6 +1,15 @@
 // app/ueber-uns/wasserzeitung/page.tsx
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Wasserzeitung – 30 Jahre WAZ',
+  description:
+    'Die Sonderausgabe der Wasserzeitung zum 30-jährigen Jubiläum des WAZ Blankenfelde-Mahlow zum Nachlesen.',
+  path: '/ueber-uns/wasserzeitung',
+});
 
 export default function WasserzeitungPage() {
   return (
@@ -37,7 +46,7 @@ export default function WasserzeitungPage() {
           </div>
 
           <div className="w-full h-[800px] bg-slate-100 rounded-2xl overflow-hidden border border-slate-200">
-            <iframe 
+            <iframe loading="lazy" 
               src="/ueber-uns/waz_jubilaeumsseiten_30_jahre.pdf#view=FitH" 
               className="w-full h-full" 
               title="Wasserzeitung 30 Jahre WAZ"
