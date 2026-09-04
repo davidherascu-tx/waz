@@ -11,12 +11,11 @@ export type NewsItem = {
 
 export const newsItems: NewsItem[] = [
   {
-    id: 'spitzenlastsituation-2026',
-    title: 'Spitzenlastsituation – Gartenbewässerung bitte einstellen',
-    date: '25. Juni 2026',
-    pdf: '20260625_Spitzenlastsituation.pdf',
-    excerpt: 'Aufgrund der aktuellen Witterungslage laufen die Anlagen zur Wasserversorgung an ihrer Belastungsgrenze. Wir bitten Sie, in den Spitzenzeiten von 7:00 – 11:00 Uhr und 15:00 – 22:00 Uhr auf Gartenbewässerung und Poolbefüllungen zu verzichten.',
-    urgent: true,
+    id: 'zvv-einladung-september-2026',
+    title: '2. Zweckverbandversammlung 2026',
+    date: '3. September 2026',
+    pdf: 'Einladung_2_ZVV_2026.pdf',
+    excerpt: 'Die 2. Sitzung der Verbandsversammlung des WAZ Blankenfelde-Mahlow findet am Dienstag, den 22.09.2026 um 18:00 Uhr im Haus des Wassers, Glasower Damm 92, statt. Die vollständige Tagesordnung entnehmen Sie bitte der Bekanntmachung.',
   },
   {
     id: 'kinderwassertag-2026',
